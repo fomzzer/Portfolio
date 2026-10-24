@@ -32,6 +32,10 @@ function rateLimited(key: string) {
   return recent.length > 5;
 }
 
+function env(name: string) {
+  return process.env[name]?.replace(/^﻿/, "").replace(/^"|"$/g, "").trim() || undefined;
+}
+
 function escape(value: string) {
   return value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string);
 }
@@ -62,8 +66,8 @@ export async function sendMessage(_: ContactState, formData: FormData): Promise<
 
   const { name, email, budget, message } = parsed.data;
   const budgetLabel = en.contact.budgets[budget];
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO_EMAIL;
+  const apiKey = env("RESEND_API_KEY");
+  const to = env("CONTACT_TO_EMAIL");
 
   if (!apiKey || !to) {
     console.warn("Contact form: RESEND_API_KEY or CONTACT_TO_EMAIL is not set", { name, email, budget, locale });
@@ -72,7 +76,7 @@ export async function sendMessage(_: ContactState, formData: FormData): Promise<
 
   const resend = new Resend(apiKey);
   const { error } = await resend.emails.send({
-    from: process.env.CONTACT_FROM_EMAIL ?? "Portfolio <onboarding@resend.dev>",
+    from: env("CONTACT_FROM_EMAIL") ?? "fomzzer.dev <onboarding@resend.dev>",
     to,
     replyTo: email,
     subject: `New inquiry from ${name} · ${budgetLabel} · ${locale.toUpperCase()}`,
