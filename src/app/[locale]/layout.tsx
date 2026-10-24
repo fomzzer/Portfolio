@@ -13,6 +13,7 @@ import { siteUrl } from "@/lib/utils";
 import { Providers } from "@/components/providers";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { PageFade } from "@/components/page-fade";
 import { Background } from "@/components/effects/background";
 import { CursorGlow } from "@/components/effects/cursor-glow";
 import { ScrollProgress } from "@/components/effects/scroll-progress";
@@ -30,16 +31,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
   const { fullName, profile: p } = getContent(locale);
-  const title = `${fullName} — ${p.role}`;
+  const title = `${profile.brand} — ${p.role}`;
 
   return {
     metadataBase: new URL(siteUrl),
-    title: { default: title, template: `%s · ${fullName}` },
+    title: { default: title, template: `%s · ${profile.brand}` },
     description: p.headline,
-    applicationName: fullName,
+    applicationName: profile.brand,
     authors: [{ name: fullName, url: siteUrl }],
     creator: fullName,
-    keywords: ["Full-Stack Developer", "Next.js", "React", "TypeScript", "Node.js", "PostgreSQL", "Web Developer", "Odesa", "Ukraine", "Portfolio"],
+    keywords: ["fomzzer", "fomzzer.dev", "Full-Stack Web Developer", "Web Developer", "Next.js", "React", "TypeScript", "Node.js", "PostgreSQL", "Website development", "Remote", "Sofia", "Bulgaria"],
     alternates: {
       canonical: `/${locale}`,
       languages: { ...Object.fromEntries(locales.map((l) => [localeMeta[l].htmlLang, `/${l}`])), "x-default": "/en" },
@@ -47,7 +48,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       type: "website",
       url: `${siteUrl}/${locale}`,
-      siteName: fullName,
+      siteName: profile.brand,
       title,
       description: p.headline,
       locale: localeMeta[locale].ogLocale,
@@ -74,12 +75,14 @@ export default async function LocaleLayout({ children, params }: Props) {
     "@context": "https://schema.org",
     "@type": "Person",
     name: content.fullName,
+    alternateName: ["fomzzer", profile.brand],
     jobTitle: content.profile.role,
     url: `${siteUrl}/${locale}`,
     email: `mailto:${profile.email}`,
-    address: { "@type": "PostalAddress", addressLocality: "Odesa", addressCountry: "UA" },
+    address: { "@type": "PostalAddress", addressLocality: "Sofia", addressCountry: "BG" },
+    alumniOf: { "@type": "CollegeOrUniversity", name: "Technical University of Sofia" },
     sameAs: profile.socials.map((s) => s.href),
-    knowsAbout: ["Next.js", "React", "TypeScript", "Node.js", "PostgreSQL", "Prisma", "Python", "FastAPI"],
+    knowsAbout: ["Web development", "Next.js", "React", "TypeScript", "Node.js", "PostgreSQL", "Prisma", "SEO", "Web performance"],
   };
 
   return (
@@ -96,9 +99,11 @@ export default async function LocaleLayout({ children, params }: Props) {
             <ScrollProgress />
             <Header />
             <main id="main" className="relative">
-              {children}
+              <PageFade>{children}</PageFade>
             </main>
-            <Footer />
+            <PageFade>
+              <Footer />
+            </PageFade>
           </Providers>
         </I18nProvider>
         <Analytics />

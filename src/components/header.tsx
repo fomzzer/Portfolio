@@ -13,6 +13,7 @@ import { AnchorLink } from "./anchor-link";
 import { useCommandMenu } from "./command-menu";
 import { LanguageSwitcher } from "./language-switcher";
 import { BrandIcon } from "./ui/brand-icon";
+import { BrandMark, BrandWordmark } from "./brand";
 
 function useActiveSection(ids: readonly SectionId[], enabled: boolean) {
   const [active, setActive] = useState<SectionId | null>(null);
@@ -36,8 +37,10 @@ function useActiveSection(ids: readonly SectionId[], enabled: boolean) {
   return enabled ? active : null;
 }
 
+let introPlayed = false;
+
 export function Header() {
-  const { locale, t, sections, profile: p } = useI18n();
+  const { locale, t, sections } = useI18n();
   const pathname = usePathname();
   const [ids] = useState(() => sections.map((s) => s.id));
   const active = useActiveSection(ids, pathname === `/${locale}`);
@@ -68,21 +71,20 @@ export function Header() {
     <>
       <motion.header
         className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-4 sm:pt-4"
-        initial={{ y: -40, opacity: 0 }}
+        initial={introPlayed ? false : { y: -40, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+        onAnimationComplete={() => (introPlayed = true)}
       >
         <div
           className={cn(
-            "flex w-full max-w-6xl items-center justify-between gap-3 rounded-full p-1.5 transition-all duration-700 ease-out-expo sm:p-2",
+            "flex w-full max-w-6xl items-center justify-between gap-3 rounded-full p-1.5 transition-[background-color,box-shadow] duration-500 ease-out-expo sm:p-2",
             scrolled || menuOpen ? "glass-strong glass-edge" : "bg-transparent",
           )}
         >
-          <AnchorLink to="top" onClick={() => setMenuOpen(false)} className="group flex shrink-0 items-center gap-3 rounded-full pr-2" aria-label={t.nav.home}>
-            <span className="glass glass-edge grid size-9 place-items-center rounded-full font-mono text-sm font-semibold">
-              {p.firstName[0]}
-            </span>
-            <span className="hidden text-sm font-medium tracking-tight text-fg sm:block lg:hidden xl:block">{profile.handle}</span>
+          <AnchorLink to="top" onClick={() => setMenuOpen(false)} className="group flex shrink-0 items-center gap-2.5 rounded-full pr-2" aria-label={`${profile.brand} — ${t.nav.home}`}>
+            <BrandMark className="transition-transform duration-500 ease-out-expo group-hover:rotate-[-8deg]" />
+            <BrandWordmark className="text-[15px]" />
           </AnchorLink>
 
           <nav className="hidden lg:block" onPointerLeave={() => setHovered(null)}>

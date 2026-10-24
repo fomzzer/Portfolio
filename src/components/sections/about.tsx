@@ -4,6 +4,7 @@ import { Reveal } from "../ui/reveal";
 import { ScrollText } from "../ui/scroll-text";
 import { GlassCard } from "../ui/glass-card";
 import { Counter } from "../ui/counter";
+import { BrandWordmark } from "../brand";
 
 export function About({ content }: { content: Content }) {
   const { t, fullName, profile } = content;
@@ -27,14 +28,16 @@ export function About({ content }: { content: Content }) {
         <Reveal className="lg:col-span-5">
           <GlassCard strong className="relative flex aspect-[4/3] flex-col justify-end overflow-hidden p-6 sm:aspect-[2/1] lg:aspect-[4/5]">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.14),transparent_55%)]" />
-            <div className="absolute left-1/2 top-[40%] grid size-28 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/10 bg-white/[0.03] font-mono text-4xl font-semibold text-white/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] backdrop-blur-md sm:size-36 sm:text-5xl lg:top-[32%] lg:size-40 lg:text-6xl">
-              {profile.firstName[0]}
-              {profile.lastName[0]}
+            <div className="absolute left-1/2 top-[40%] flex size-28 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] font-mono text-5xl font-bold tracking-[-0.06em] text-white/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.15),0_0_80px_rgba(255,255,255,0.08)] sm:size-36 sm:text-6xl lg:top-[32%] lg:size-40 lg:text-7xl">
+              <span>
+                f<span className="text-subtle">.</span>
+              </span>
             </div>
-            <div className="noise absolute inset-0 opacity-[0.06] mix-blend-overlay" />
+            <div className="noise absolute inset-0 opacity-[0.05]" />
             <div className="relative">
-              <p className="text-xl font-semibold tracking-[-0.03em]">{fullName}</p>
-              <p className="mt-1 flex items-center gap-1.5 text-sm text-muted">
+              <BrandWordmark className="text-2xl" />
+              <p className="mt-1 text-sm text-muted">{fullName}</p>
+              <p className="mt-1 flex items-center gap-1.5 text-sm text-subtle">
                 <MapPin className="size-3.5" />
                 {profile.location}
               </p>

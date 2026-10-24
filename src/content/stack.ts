@@ -1,8 +1,8 @@
 export const stackItems = [
-  ["React", "Next.js", "TypeScript", "Tailwind CSS", "Motion", "SwiftUI"],
-  ["Node.js", "Server Actions", "FastAPI", "Python", "NextAuth", "Zod"],
+  ["React", "Next.js", "TypeScript", "Tailwind CSS", "Motion", "HTML / CSS"],
+  ["Node.js", "Server Actions", "REST APIs", "NextAuth", "Zod", "FastAPI"],
   ["PostgreSQL", "Prisma", "MySQL", "SQLite", "Redis"],
-  ["Vercel", "Azure", "Docker", "GitHub Actions", "S3", "Linux"],
+  ["Vercel", "Docker", "GitHub Actions", "S3", "Azure", "Linux"],
 ] as const;
 
 export const marquee = [
@@ -12,12 +12,12 @@ export const marquee = [
   "Node.js",
   "PostgreSQL",
   "Prisma",
-  "Tailwind",
-  "FastAPI",
-  "Python",
+  "Tailwind CSS",
+  "Server Actions",
+  "REST APIs",
   "Docker",
   "Vercel",
-  "Azure",
-  "SwiftUI",
+  "SEO",
+  "Core Web Vitals",
   "Git",
 ];

@@ -33,8 +33,8 @@ export function Hero() {
 
       <motion.div style={{ y, opacity }} className="container-page relative z-10 flex flex-1 flex-col justify-center">
         <motion.div
-          initial={{ opacity: 0, y: 16, filter: "blur(6px)" }}
-          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.3, ease }}
           className="glass glass-edge mb-6 inline-flex w-fit max-w-full items-center gap-3 rounded-full py-1.5 pl-2 pr-4 text-xs text-muted sm:mb-8"
         >
@@ -61,7 +61,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.9, ease }}
           >
-            {t.hero.greeting} <span className="text-fg">{p.firstName}</span>. {p.headline}
+            {p.headline}
           </motion.p>
 
           <motion.div

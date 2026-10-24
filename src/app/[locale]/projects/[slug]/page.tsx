@@ -6,6 +6,7 @@ import { projectData } from "@/content/projects";
 import { isLocale, localeMeta, locales } from "@/i18n/config";
 import { getContent, getNextProject, getProject } from "@/i18n/content";
 import { ProjectCover } from "@/components/project-cover";
+import { ProjectGallery } from "@/components/project-gallery";
 import { Reveal } from "@/components/ui/reveal";
 import { SplitText } from "@/components/ui/split-text";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -56,7 +57,7 @@ export default async function ProjectPage({ params }: Props) {
     <article className="pt-28 md:pt-40">
       <div className="container-page">
         <Reveal>
-          <Link href={`/${locale}#work`} className="group mb-10 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg md:mb-12">
+          <Link href={`/${locale}`} className="group mb-10 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg md:mb-12">
             <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
             {t.caseStudy.back}
           </Link>
@@ -103,7 +104,7 @@ export default async function ProjectPage({ params }: Props) {
 
         <Reveal delay={0.5} className="mt-12 md:mt-16">
           <GlassCard className="p-2 sm:p-3 md:p-4">
-            <ProjectCover project={project} priority className="aspect-[4/3] sm:aspect-[16/10] md:aspect-[16/8]" />
+            <ProjectCover project={project} priority sizes="(min-width: 1240px) 1100px, 100vw" className="aspect-[4/3] sm:aspect-[16/10] md:aspect-[16/8]" />
           </GlassCard>
         </Reveal>
 
@@ -165,6 +166,13 @@ export default async function ProjectPage({ params }: Props) {
               </Reveal>
             ))}
           </div>
+        </section>
+
+        <section className="mt-20 md:mt-28">
+          <Reveal>
+            <h2 className="mb-8 text-3xl font-semibold tracking-[-0.04em] md:mb-10 md:text-5xl">{t.caseStudy.gallery}</h2>
+          </Reveal>
+          <ProjectGallery project={project} labels={{ desktop: t.caseStudy.desktop, mobile: t.caseStudy.mobile }} />
         </section>
 
         <section className="mt-20 md:mt-28">

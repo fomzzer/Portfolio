@@ -37,7 +37,7 @@ export function getContent(locale: Locale) {
     experience: experienceData.map((data, i) => ({
       ...data,
       ...t.experience.items[i],
-      period: `${data.from} — ${data.to ?? t.experience.now}`,
+      period: data.to === data.from ? data.from : `${data.from} — ${data.to ?? t.experience.now}`,
     })),
     stackGroups: t.stack.groups.map((group, i) => ({ ...group, items: stackItems[i] })),
     services: t.services.items.map((item, i) => ({ ...item, icon: serviceIcons[i] })),

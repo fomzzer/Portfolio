@@ -1,3 +1,3 @@
-export const budgets = ["lt1k", "1to5k", "5to15k", "gt15k", "unsure"] as const;
+export const budgets = ["lt300", "300to800", "800to2k", "gt2k", "unsure"] as const;
 
 export type Budget = (typeof budgets)[number];

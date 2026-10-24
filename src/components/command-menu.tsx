@@ -11,7 +11,7 @@ import { localeMeta, locales } from "@/i18n/config";
 import { useI18n } from "@/i18n/provider";
 import { BrandIcon } from "./ui/brand-icon";
 import { useScrollToSection } from "./anchor-link";
-import { rememberLocale, swapLocale } from "./language-switcher";
+import { useSwitchLocale } from "./language-switcher";
 
 type CommandContextValue = { open: boolean; setOpen: (v: boolean) => void; toggle: () => void };
 
@@ -60,6 +60,7 @@ function CommandMenu() {
   const pathname = usePathname();
   const lenis = useLenis();
   const scrollTo = useScrollToSection();
+  const switchLocale = useSwitchLocale();
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -98,9 +99,9 @@ function CommandMenu() {
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setOpen(false)} />
           <motion.div
             className="glass-strong glass-edge relative w-full max-w-xl overflow-hidden rounded-3xl"
-            initial={{ opacity: 0, scale: 0.96, y: -10, filter: "blur(6px)" }}
-            animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, scale: 0.97, y: -6, filter: "blur(4px)" }}
+            initial={{ opacity: 0, scale: 0.96, y: -10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.97, y: -6 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             role="dialog"
             aria-modal="true"
@@ -173,10 +174,7 @@ function CommandMenu() {
                       key={l}
                       value={`language ${l} ${localeMeta[l].label} ${localeMeta[l].name}`}
                       onSelect={() =>
-                        run(() => {
-                          rememberLocale(l);
-                          router.push(swapLocale(pathname, l), { scroll: false });
-                        })
+                        run(() => switchLocale(l))
                       }
                       className={itemClass}
                     >

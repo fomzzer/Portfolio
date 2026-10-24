@@ -3,7 +3,6 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { isLocale, locales } from "@/i18n/config";
 import { getContent } from "@/i18n/content";
-import { profile } from "@/content/profile";
 
 export const alt = "Portfolio";
 export const size = { width: 1200, height: 630 };
@@ -40,19 +39,43 @@ export default async function OpengraphImage({ params }: { params: Promise<{ loc
           fontFamily: "Geist",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 24, color: "#a1a1aa" }}>
-          <div style={{ width: 12, height: 12, borderRadius: 999, background: "#86efac" }} />
-          {p.availability}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+            <div
+              style={{
+                width: 64,
+                height: 64,
+                borderRadius: 999,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                border: "2px solid rgba(255,255,255,0.18)",
+                background: "radial-gradient(circle at 30% 25%, #3a3a40, #0a0a0b 70%)",
+                fontSize: 34,
+                fontWeight: 600,
+              }}
+            >
+              f
+            </div>
+            <div style={{ display: "flex", fontSize: 40, fontWeight: 600, letterSpacing: -1.5 }}>
+              <span>fomzzer</span>
+              <span style={{ color: "#71717a" }}>.dev</span>
+            </div>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, fontSize: 24, color: "#a1a1aa" }}>
+            <div style={{ width: 12, height: 12, borderRadius: 999, background: "#86efac" }} />
+            {p.availability}
+          </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", flexDirection: "column", fontSize: 120, fontWeight: 600, letterSpacing: -5, lineHeight: 0.95 }}>
+          <div style={{ display: "flex", flexDirection: "column", fontSize: 116, fontWeight: 600, letterSpacing: -5, lineHeight: 0.95 }}>
             <span>{t.hero.titleTop}</span>
             <span style={{ color: "#a1a1aa" }}>{t.hero.titleBottom}</span>
           </div>
-          <div style={{ marginTop: 32, fontSize: 32, color: "#a1a1aa" }}>{`${fullName} · ${p.location}`}</div>
+          <div style={{ marginTop: 30, fontSize: 30, color: "#a1a1aa", maxWidth: 980 }}>{p.headline}</div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 22, color: "#71717a" }}>
-          <span>{profile.handle}</span>
+          <span>{`${fullName} · ${p.location}`}</span>
           <span>Next.js · React · TypeScript · PostgreSQL</span>
         </div>
       </div>

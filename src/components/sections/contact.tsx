@@ -17,17 +17,25 @@ import { BrandIcon } from "../ui/brand-icon";
 const initial: ContactState = { status: "idle" };
 
 const fieldClass =
-  "peer w-full rounded-2xl border border-line bg-white/[0.02] px-4 pb-3 pt-6 text-base text-fg outline-none transition-all duration-300 placeholder:text-transparent hover:border-line-strong focus:border-white/30 focus:bg-white/[0.04] focus:shadow-[0_0_0_4px_rgba(255,255,255,0.04)] focus-visible:outline-none sm:text-sm";
+  "peer block w-full rounded-2xl border border-line bg-white/[0.02] px-4 text-base leading-6 text-fg outline-none transition-[border-color,background-color,box-shadow] duration-300 placeholder:text-transparent hover:border-line-strong focus:border-white/30 focus:bg-white/[0.04] focus:shadow-[0_0_0_4px_rgba(255,255,255,0.04)] focus-visible:outline-none sm:text-sm";
 
-const labelClass =
-  "pointer-events-none absolute left-4 top-4 origin-left text-sm text-subtle transition-all duration-300 peer-focus:top-2 peer-focus:text-[11px] peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-[11px]";
+const inputClass = "h-14 pb-1.5 pt-5";
+
+const textareaClass = "min-h-36 resize-none pb-3 pt-7";
+
+const labelBase =
+  "pointer-events-none absolute left-4 origin-left text-sm leading-5 text-subtle transition-[top,transform,font-size,color] duration-300 ease-out-expo peer-focus:text-[11px] peer-focus:text-muted peer-[:not(:placeholder-shown)]:text-[11px]";
+
+const inputLabel = `${labelBase} top-1/2 -translate-y-1/2 peer-focus:top-2 peer-focus:translate-y-0 peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:translate-y-0`;
+
+const textareaLabel = `${labelBase} top-[1.05rem] peer-focus:top-2.5 peer-[:not(:placeholder-shown)]:top-2.5`;
 
 function Field({ name, label, type = "text", error, textarea }: { name: string; label: string; type?: string; error?: string; textarea?: boolean }) {
   return (
     <div>
       <div className="relative">
         {textarea ? (
-          <textarea id={name} name={name} placeholder={label} rows={5} aria-invalid={!!error} className={cn(fieldClass, "resize-none", error && "border-red-400/50")} />
+          <textarea id={name} name={name} placeholder={label} rows={5} aria-invalid={!!error} className={cn(fieldClass, textareaClass, error && "border-red-400/50")} />
         ) : (
           <input
             id={name}
@@ -35,11 +43,11 @@ function Field({ name, label, type = "text", error, textarea }: { name: string; 
             type={type}
             placeholder={label}
             aria-invalid={!!error}
-            className={cn(fieldClass, error && "border-red-400/50")}
+            className={cn(fieldClass, inputClass, error && "border-red-400/50")}
             autoComplete={name === "email" ? "email" : name === "name" ? "name" : "off"}
           />
         )}
-        <label htmlFor={name} className={labelClass}>
+        <label htmlFor={name} className={textarea ? textareaLabel : inputLabel}>
           {label}
         </label>
       </div>
@@ -89,7 +97,7 @@ export function Contact() {
           <div className="flex h-full flex-col gap-4 sm:gap-6">
             <GlassCard strong className="p-6 sm:p-8">
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-subtle">{t.contact.email}</p>
-              <a href={`mailto:${profile.email}`} className="mt-3 block break-all text-2xl font-semibold tracking-[-0.03em] text-fg transition-opacity hover:opacity-80 md:text-3xl">
+              <a href={`mailto:${profile.email}`} className="selectable mt-3 block select-text break-all text-2xl font-semibold tracking-[-0.03em] text-fg transition-opacity hover:opacity-80 md:text-3xl">
                 {profile.email}
               </a>
               <button onClick={copy} className="mt-6 inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-xs text-muted transition-colors hover:border-line-strong hover:text-fg">
@@ -99,8 +107,8 @@ export function Contact() {
             </GlassCard>
 
             <div className="grid grid-cols-2 gap-4 sm:gap-6">
-              {profile.socials.map((s) => (
-                <a key={s.name} href={s.href} target="_blank" rel="noopener noreferrer" className="group">
+              {profile.socials.map((s, i) => (
+                <a key={s.name} href={s.href} target="_blank" rel="noopener noreferrer" className={cn("group", i === profile.socials.length - 1 && profile.socials.length % 2 === 1 && "col-span-2")}>
                   <GlassCard className="flex items-center justify-between gap-2 p-4 transition-colors group-hover:bg-white/[0.05] sm:p-5">
                     <span className="flex min-w-0 items-center gap-2.5 text-sm text-muted transition-colors group-hover:text-fg sm:gap-3">
                       <BrandIcon name={s.icon} className="size-4 shrink-0" />

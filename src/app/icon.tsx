@@ -1,5 +1,4 @@
 import { ImageResponse } from "next/og";
-import { en } from "@/i18n/dictionaries/en";
 
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
@@ -22,7 +21,7 @@ export default function Icon() {
           fontWeight: 700,
         }}
       >
-        {en.profile.firstName[0]}
+        f
       </div>
     ),
     size,

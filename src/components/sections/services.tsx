@@ -1,10 +1,10 @@
-import { Layers, PanelsTopLeft, Plug, ShoppingBag } from "lucide-react";
+import { Gauge, Globe, Layers, ShoppingBag } from "lucide-react";
 import type { Content } from "@/i18n/content";
 import { SectionHeading } from "../ui/section-heading";
 import { Reveal } from "../ui/reveal";
 import { GlassCard } from "../ui/glass-card";
 
-const icons = { layers: Layers, cart: ShoppingBag, panel: PanelsTopLeft, plug: Plug };
+const icons = { globe: Globe, layers: Layers, cart: ShoppingBag, gauge: Gauge };
 
 export function Services({ content }: { content: Content }) {
   const { t, services, process } = content;
@@ -32,7 +32,7 @@ export function Services({ content }: { content: Content }) {
 
       <div className="mt-12 grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 md:mt-20 lg:grid-cols-4">
         {process.map((p, i) => (
-          <Reveal key={p.step} delay={i * 0.08} blur={false} className="h-full">
+          <Reveal key={p.step} delay={i * 0.08} className="h-full">
             <div className="group relative h-full bg-ink p-6 transition-colors duration-500 hover:bg-ink-2 md:p-7">
               <p className="font-mono text-xs text-subtle">{p.step}</p>
               <p className="mt-6 text-lg font-semibold tracking-[-0.02em] md:mt-8">{p.title}</p>

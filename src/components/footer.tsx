@@ -2,11 +2,13 @@
 
 import { ArrowUp, ArrowUpRight } from "lucide-react";
 import { profile } from "@/content/profile";
+import { fill } from "@/i18n/config";
 import { useI18n } from "@/i18n/provider";
 import { AnchorLink } from "./anchor-link";
 import { LocalTime } from "./local-time";
 import { LanguageSwitcher } from "./language-switcher";
 import { BrandIcon } from "./ui/brand-icon";
+import { BrandMark, BrandWordmark } from "./brand";
 
 export function Footer() {
   const { t, fullName, sections, profile: p } = useI18n();
@@ -16,17 +18,21 @@ export function Footer() {
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
       <div className="container-page grid gap-12 py-16 sm:grid-cols-2 md:grid-cols-12">
         <div className="sm:col-span-2 md:col-span-5">
-          <p className="text-2xl font-semibold tracking-[-0.03em] text-fg">{fullName}</p>
-          <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted">
+          <div className="flex items-center gap-3">
+            <BrandMark className="size-11 text-lg" />
+            <BrandWordmark className="text-2xl" />
+          </div>
+          <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted">
             {p.role}. {t.footer.tagline}
           </p>
+          <p className="mt-2 text-xs text-subtle">{fill(t.footer.by, { name: fullName })}</p>
           <div className="mt-6 flex flex-wrap items-center gap-2 font-mono text-xs text-subtle">
             <span className="size-1.5 rounded-full bg-emerald-300 animate-pulse-dot" />
             <span>{p.location}</span>
             <span className="text-dim">·</span>
             <LocalTime timeZone={profile.timezone} className="tabular-nums text-muted" />
           </div>
-          <LanguageSwitcher className="mt-8 w-fit" />
+          <LanguageSwitcher className="mt-8" />
         </div>
 
         <div className="md:col-span-3">
@@ -64,17 +70,14 @@ export function Footer() {
       </div>
 
       <div className="container-page relative">
-        <p
-          aria-hidden
-          className="text-gradient pointer-events-none select-none truncate text-center text-[17vw] font-semibold leading-[0.85] tracking-[-0.07em] opacity-[0.14] md:text-[14vw]"
-        >
-          {p.firstName}
+        <p aria-hidden className="text-gradient pointer-events-none select-none whitespace-nowrap text-center text-[15.5vw] font-semibold leading-[0.85] tracking-[-0.07em] opacity-[0.14] xl:text-[12rem]">
+          fomzzer<span className="opacity-60">.dev</span>
         </p>
       </div>
 
       <div className="container-page flex flex-col items-center justify-between gap-4 border-t border-line py-6 text-center font-mono text-[11px] uppercase tracking-[0.15em] text-subtle sm:flex-row sm:text-left">
         <span suppressHydrationWarning>
-          © {new Date().getFullYear()} {fullName}
+          © {new Date().getFullYear()} {profile.brand}
         </span>
         <span>Next.js · Tailwind · Vercel</span>
         <AnchorLink to="top" className="group inline-flex items-center gap-2 transition-colors hover:text-fg">
