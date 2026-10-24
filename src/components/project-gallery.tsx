@@ -61,9 +61,9 @@ function BrowserFrame({ host, children }: { host: string; children: React.ReactN
 function PhoneFrame({ children }: { children: React.ReactNode }) {
   return (
     <div className="glass glass-edge mx-auto rounded-[2.6rem] p-2 shadow-[0_40px_100px_-40px_rgba(0,0,0,1)]">
-      <div className="relative overflow-hidden rounded-[2.1rem] border border-white/[0.08] bg-white pt-8">
-        <span className="absolute inset-x-0 top-0 h-8 bg-white" />
-        <span className="absolute left-1/2 top-2 z-10 h-5 w-20 -translate-x-1/2 rounded-full bg-black" />
+      <div className="relative overflow-hidden rounded-[2.1rem] border border-white/[0.08] bg-white pt-9">
+        <span className="absolute inset-x-0 top-0 h-9 bg-white" />
+        <span className="absolute left-1/2 top-[7px] z-10 aspect-[3.4/1] w-[31%] -translate-x-1/2 rounded-full bg-black" />
         {children}
       </div>
     </div>

@@ -4,7 +4,7 @@ import { Command } from "cmdk";
 import { AnimatePresence, motion } from "motion/react";
 import { useRouter, usePathname } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { ArrowUpRight, Check, Copy, FileText, FolderGit2, Hash, Languages, Mail, Search } from "lucide-react";
+import { ArrowUpRight, Check, Copy, FileText, FolderGit2, Hash, Languages, LayoutGrid, Mail, Search } from "lucide-react";
 import { useLenis } from "lenis/react";
 import { profile } from "@/content/profile";
 import { localeMeta, locales } from "@/i18n/config";
@@ -70,7 +70,7 @@ function CommandMenu() {
 
   function run(fn: () => void) {
     setOpen(false);
-    setTimeout(fn, 120);
+    setTimeout(fn, 200);
   }
 
   function goSection(id: string) {
@@ -89,20 +89,19 @@ function CommandMenu() {
   return (
     <AnimatePresence>
       {open && (
-        <motion.div
-          className="fixed inset-0 z-[90] flex items-start justify-center px-3 pt-[10vh] sm:px-4 sm:pt-[14vh]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setOpen(false)} />
+        <div key="command" className="fixed inset-0 z-[90] flex items-start justify-center px-3 pt-[10vh] sm:px-4 sm:pt-[14vh]">
           <motion.div
-            className="glass-strong glass-edge relative w-full max-w-xl overflow-hidden rounded-3xl"
-            initial={{ opacity: 0, scale: 0.96, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.97, y: -6 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute inset-0 bg-black/75"
+            onClick={() => setOpen(false)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { duration: 0.35, ease: "easeOut" } }}
+            exit={{ opacity: 0, transition: { duration: 0.25, ease: "easeIn" } }}
+          />
+          <motion.div
+            className="glass-strong glass-edge relative w-full max-w-xl origin-top overflow-hidden rounded-3xl will-change-transform"
+            initial={{ opacity: 0, scale: 0.94, y: 18 }}
+            animate={{ opacity: 1, scale: 1, y: 0, transition: { type: "spring", stiffness: 320, damping: 30, mass: 0.8, opacity: { duration: 0.25 } } }}
+            exit={{ opacity: 0, scale: 0.97, y: 10, transition: { duration: 0.2, ease: [0.4, 0, 1, 1] } }}
             role="dialog"
             aria-modal="true"
             aria-label={t.nav.openCommand}
@@ -127,6 +126,14 @@ function CommandMenu() {
                 <Command.Empty className="px-3 py-10 text-center text-sm text-subtle">{t.command.empty}</Command.Empty>
 
                 <Command.Group heading={t.command.navigate} className={groupClass}>
+                  <Command.Item value={`cases ${t.nav.cases}`} onSelect={() => run(() => router.push(`/${locale}/projects`))} className={itemClass}>
+                    <LayoutGrid className="size-4" />
+                    {t.nav.cases}
+                  </Command.Item>
+                  <Command.Item value={`work latest ${t.work.eyebrow}`} onSelect={() => goSection("work")} className={itemClass}>
+                    <Hash className="size-4" />
+                    {t.work.eyebrow}
+                  </Command.Item>
                   {sections.map((s) => (
                     <Command.Item key={s.id} value={`section ${s.id} ${s.label}`} onSelect={() => goSection(s.id)} className={itemClass}>
                       <Hash className="size-4" />
@@ -209,7 +216,7 @@ function CommandMenu() {
               </div>
             </Command>
           </motion.div>
-        </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );

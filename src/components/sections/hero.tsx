@@ -38,7 +38,7 @@ export function Hero() {
           transition={{ duration: 1, delay: 0.3, ease }}
           className="glass glass-edge mb-6 inline-flex w-fit max-w-full items-center gap-3 rounded-full py-1.5 pl-2 pr-4 text-xs text-muted sm:mb-8"
         >
-          <span className="flex shrink-0 items-center gap-2 rounded-full bg-white/[0.06] px-2.5 py-1 font-medium text-fg">
+          <span className="flex shrink-0 items-center gap-2.5 rounded-full bg-white/[0.06] py-1 pl-3 pr-3 font-medium text-fg">
             <span className="size-1.5 rounded-full bg-emerald-300 animate-pulse-dot" />
             {profile.available ? t.hero.available : t.hero.busy}
           </span>

@@ -15,5 +15,5 @@ function entry(path: string, priority: number, changeFrequency: "monthly" | "yea
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [...entry("", 1, "monthly"), ...projectData.flatMap((p) => entry(`/projects/${p.slug}`, 0.8, "yearly"))];
+  return [...entry("", 1, "monthly"), ...entry("/projects", 0.9, "monthly"), ...projectData.flatMap((p) => entry(`/projects/${p.slug}`, 0.8, "yearly"))];
 }

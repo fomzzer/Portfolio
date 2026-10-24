@@ -5,7 +5,7 @@ export const profile = {
   email: "fmzrdev@gmail.com",
   available: true,
   resume: null as string | null,
-  stats: ["4+", "7", "100", "24/7"],
+  stats: ["4+", "2", "100", "24/7"],
   socials: [
     { name: "GitHub", href: "https://github.com/fomzzer", icon: "github" },
     { name: "LinkedIn", href: "https://www.linkedin.com/in/fomzzer", icon: "linkedin" },

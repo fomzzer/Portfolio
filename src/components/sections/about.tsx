@@ -26,22 +26,38 @@ export function About({ content }: { content: Content }) {
 
       <div className="mt-16 grid gap-6 md:mt-24 lg:mt-28 lg:grid-cols-12">
         <Reveal className="lg:col-span-5">
-          <GlassCard strong className="relative flex aspect-[4/3] flex-col justify-end overflow-hidden p-6 sm:aspect-[2/1] lg:aspect-[4/5]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.14),transparent_55%)]" />
-            <div className="absolute left-1/2 top-[40%] flex size-28 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] font-mono text-5xl font-bold tracking-[-0.06em] text-white/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.15),0_0_80px_rgba(255,255,255,0.08)] sm:size-36 sm:text-6xl lg:top-[32%] lg:size-40 lg:text-7xl">
-              <span>
-                f<span className="text-subtle">.</span>
+          <GlassCard strong className="relative flex h-full flex-col gap-8 overflow-hidden p-6 sm:p-8">
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-2/3 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.12),transparent_65%)]" />
+            <div className="relative flex items-center gap-5">
+              <div className="flex size-20 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/[0.04] font-mono text-4xl font-bold tracking-[-0.06em] text-white/85 shadow-[inset_0_1px_0_rgba(255,255,255,0.15),0_0_60px_rgba(255,255,255,0.08)] sm:size-24 sm:text-5xl">
+                <span>
+                  f<span className="text-subtle">.</span>
+                </span>
+              </div>
+              <div className="min-w-0">
+                <BrandWordmark className="text-2xl sm:text-3xl" />
+                <p className="mt-1 text-sm text-muted">{fullName}</p>
+                <p className="mt-1 flex items-center gap-1.5 text-sm text-subtle">
+                  <MapPin className="size-3.5 shrink-0" />
+                  {profile.location}
+                </p>
+              </div>
+            </div>
+            <div className="relative space-y-4">
+              <span className="inline-flex items-center gap-3 rounded-full border border-line bg-white/[0.03] py-1.5 pl-3.5 pr-4 text-xs text-muted">
+                <span className="size-1.5 shrink-0 rounded-full bg-emerald-300 animate-pulse-dot" />
+                {profile.availability}
               </span>
+              <p className="max-w-sm text-lg leading-snug tracking-[-0.02em] text-fg/90">{t.footer.tagline}</p>
             </div>
-            <div className="noise absolute inset-0 opacity-[0.05]" />
-            <div className="relative">
-              <BrandWordmark className="text-2xl" />
-              <p className="mt-1 text-sm text-muted">{fullName}</p>
-              <p className="mt-1 flex items-center gap-1.5 text-sm text-subtle">
-                <MapPin className="size-3.5" />
-                {profile.location}
-              </p>
-            </div>
+            <dl className="relative mt-auto divide-y divide-line border-t border-line">
+              {t.about.facts.map((fact) => (
+                <div key={fact.label} className="flex items-baseline justify-between gap-4 py-3.5">
+                  <dt className="font-mono text-[11px] uppercase tracking-[0.18em] text-subtle">{fact.label}</dt>
+                  <dd className="text-right text-sm text-fg">{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
           </GlassCard>
         </Reveal>
 

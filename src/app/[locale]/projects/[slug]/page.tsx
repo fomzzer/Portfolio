@@ -57,7 +57,7 @@ export default async function ProjectPage({ params }: Props) {
     <article className="pt-28 md:pt-40">
       <div className="container-page">
         <Reveal>
-          <Link href={`/${locale}`} className="group mb-10 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg md:mb-12">
+          <Link href={`/${locale}/projects`} className="group mb-10 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg md:mb-12">
             <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
             {t.caseStudy.back}
           </Link>

@@ -7,13 +7,14 @@ export const en = {
     location: "Sofia, Bulgaria",
     availability: "Open to remote projects",
     bio: [
-      "I'm a full-stack web developer based in Sofia, working remotely with clients worldwide. I build websites and web applications end to end: architecture, databases, payments, admin panels and fast, polished interfaces.",
+      "I'm a full-stack web developer based in Sofia, working remotely with clients worldwide. I build websites and web applications end to end and on my own: architecture, databases, payments, admin panels and fast, polished interfaces.",
       "My standard is simple: professional, reliable and high-performance. Every project ships with clean code, secure defaults, top Lighthouse scores and a design that feels effortless.",
     ],
     stats: ["Years in web development", "Projects delivered", "Lighthouse performance", "In production"],
   },
   nav: {
     work: "Work",
+    cases: "Cases",
     about: "About",
     stack: "Stack",
     experience: "Experience",
@@ -37,15 +38,25 @@ export const en = {
     scroll: "Scroll",
   },
   work: {
-    eyebrow: "Featured project",
+    eyebrow: "Latest project",
     title: "Built from scratch. Running in production.",
     description: "A complete e-commerce platform — from database schema and payments to the admin panel and a lightning-fast storefront.",
     readCase: "Read case study",
+    allCases: "All cases",
     status: { live: "Live", dev: "In development", archived: "Archived" },
     preview: "preview",
   },
+  cases: {
+    eyebrow: "Cases",
+    title: "Projects I've built from scratch.",
+    description: "Every project here is designed, developed and launched by me alone — from the first sketch to production.",
+    count: "Projects",
+    ctaTitle: "Your project could be next.",
+    ctaText: "Tell me about your idea — I'll turn it into a fast, reliable website.",
+    ctaButton: "Start a project",
+  },
   caseStudy: {
-    back: "Back to home",
+    back: "All cases",
     label: "Case study",
     visit: "Visit live site",
     source: "Source code",
@@ -67,6 +78,12 @@ export const en = {
     eyebrow: "About",
     statement: "I create professional, reliable and high-performance websites. One developer, the whole stack — from Postgres to pixels.",
     downloadCv: "Download CV",
+    facts: [
+      { label: "Based in", value: "Sofia, Bulgaria" },
+      { label: "Work format", value: "Remote · Worldwide" },
+      { label: "Education", value: "TU Sofia · 2nd year" },
+      { label: "Focus", value: "Websites & web apps" },
+    ],
   },
   stack: {
     eyebrow: "Toolkit",
@@ -82,23 +99,23 @@ export const en = {
   experience: {
     eyebrow: "Experience",
     title: "Where I've been building.",
-    description: "Four years of building for the web. Every project taught me to ship faster without cutting corners.",
+    description: "Four years of building for the web — always solo, owning every step from the first call to production.",
     now: "Now",
     items: [
       {
         title: "Full-Stack Web Developer",
         company: "Freelance · Remote",
-        description: "Websites, online stores and web applications for clients: architecture, development, deployment and long-term support.",
-      },
-      {
-        title: "Lead Developer",
-        company: "Prirodni Skarby",
-        description: "Designed and built a production e-commerce platform from scratch: Next.js, PostgreSQL, online payments, delivery integration and a custom admin panel.",
+        description: "Working solo end to end: websites, online stores and web applications for clients — architecture, design, development, deployment and long-term support.",
       },
       {
         title: "Student, Intelligent Systems & AI",
         company: "Technical University of Sofia",
         description: "Second-year student. Algorithms, databases and software engineering — applied directly to real web projects.",
+      },
+      {
+        title: "Solo Full-Stack Developer",
+        company: "Prirodni Skarby · Freelance project",
+        description: "Designed, built and launched the entire platform on my own — architecture, database, online payments, delivery integration, admin panel and deployment.",
       },
     ],
   },
@@ -176,14 +193,14 @@ export const en = {
     "prirodni-skarby": {
       title: "Prirodni Skarby",
       tagline: "Full-stack e-commerce platform for a natural food store",
-      role: "Full-Stack Developer · Design · DevOps",
+      role: "Solo developer · Design · Development · DevOps",
       client: "Prirodni Skarby, Odesa",
       summary:
         "A production online store with a physical location in Odesa: product catalog with variants, cart, checkout with online payments and delivery across Ukraine, customer accounts and a fully custom admin panel.",
       challenge:
         "The business needed more than a template shop: real payment processing with reconciliation, delivery integration, customer accounts with email verification and a secure back-office that non-technical staff could run every day.",
       solution:
-        "I built the platform from scratch on Next.js App Router with a PostgreSQL schema of 17 models via Prisma. Payments go through LiqPay with signed callbacks and a daily cron that reconciles pending orders. The admin panel has isolated sessions, login challenges, rate limiting and a full audit log.",
+        "I built the platform from scratch on my own on Next.js App Router with a PostgreSQL schema of 17 models via Prisma. Payments go through LiqPay with signed callbacks and a daily cron that reconciles pending orders. The admin panel has isolated sessions, login challenges, rate limiting and a full audit log.",
       features: [
         { title: "Catalog & variants", text: "Categories, search, product pages with size and volume variants and server-side rendering for SEO." },
         { title: "Checkout & payments", text: "LiqPay integration with signature verification, payment events log, refunds and nightly reconciliation cron." },

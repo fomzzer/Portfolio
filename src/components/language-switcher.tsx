@@ -1,8 +1,8 @@
 "use client";
 
-import { animate, motion, useDragControls, useMotionValue, useMotionValueEvent } from "motion/react";
+import { animate, motion, useMotionValue, useMotionValueEvent } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { localeCookie, localeMeta, locales, type Locale } from "@/i18n/config";
 import { useI18n } from "@/i18n/provider";
 import { cn } from "@/lib/utils";
@@ -39,7 +39,7 @@ export function useSwitchLocale() {
       rememberLocale(next);
       markLocaleSwitch();
       document.documentElement.dataset.switching = "";
-      window.setTimeout(() => router.push(swapLocale(pathname, next), { scroll: false }), 200);
+      window.setTimeout(() => router.push(swapLocale(pathname, next), { scroll: false }), 220);
     },
     [locale, pathname, router],
   );
@@ -50,35 +50,31 @@ const sizes = {
   lg: { w: 64, h: 44, text: "text-sm" },
 };
 
-const spring = { type: "spring", stiffness: 520, damping: 38 } as const;
+const spring = { type: "spring", stiffness: 420, damping: 34 } as const;
 
 export function LanguageSwitcher({ className, size = "sm" }: { className?: string; size?: "sm" | "lg" }) {
   const { locale, t } = useI18n();
   const switchLocale = useSwitchLocale();
-  const controls = useDragControls();
+  const id = useId();
   const s = sizes[size];
   const index = locales.indexOf(locale);
   const max = (locales.length - 1) * s.w;
   const x = useMotionValue(index * s.w);
   const [current, setCurrent] = useState(index);
-  const dragged = useRef(false);
+  const [hovered, setHovered] = useState<number | null>(null);
+  const [dragging, setDragging] = useState(false);
 
   useMotionValueEvent(x, "change", (v) => setCurrent(Math.min(locales.length - 1, Math.max(0, Math.round(v / s.w)))));
 
   useEffect(() => {
-    const controlsAnim = animate(x, index * s.w, spring);
-    return () => controlsAnim.stop();
+    const anim = animate(x, index * s.w, spring);
+    return () => anim.stop();
   }, [index, s.w, x]);
 
   function select(i: number) {
     const target = Math.min(locales.length - 1, Math.max(0, i));
     animate(x, target * s.w, spring);
     switchLocale(locales[target]);
-  }
-
-  function onPointerDown(e: PointerEvent<HTMLDivElement>) {
-    dragged.current = false;
-    controls.start(e, { snapToCursor: true });
   }
 
   function onKeyDown(e: KeyboardEvent<HTMLDivElement>) {
@@ -95,9 +91,9 @@ export function LanguageSwitcher({ className, size = "sm" }: { className?: strin
     <div
       role="radiogroup"
       aria-label={t.nav.language}
-      onPointerDown={onPointerDown}
       onKeyDown={onKeyDown}
-      className={cn("glass glass-edge relative flex w-fit shrink-0 touch-pan-y select-none rounded-full p-1", className)}
+      onPointerLeave={() => setHovered(null)}
+      className={cn("glass glass-edge relative flex w-fit shrink-0 select-none rounded-full p-1", className)}
     >
       {locales.map((l, i) => (
         <button
@@ -108,23 +104,37 @@ export function LanguageSwitcher({ className, size = "sm" }: { className?: strin
           aria-label={localeMeta[l].name}
           lang={localeMeta[l].htmlLang}
           tabIndex={l === locale ? 0 : -1}
-          onClick={() => !dragged.current && select(i)}
+          onPointerEnter={() => setHovered(i)}
+          onClick={() => select(i)}
           style={{ width: s.w, height: s.h }}
-          className={cn("relative grid place-items-center rounded-full font-mono font-medium text-muted transition-colors duration-200 hover:text-fg", s.text)}
+          className={cn(
+            "relative grid cursor-pointer place-items-center rounded-full font-mono font-medium transition-colors duration-300",
+            s.text,
+            hovered === i ? "text-fg" : "text-muted",
+          )}
         >
-          {localeMeta[l].label}
+          {hovered === i && i !== current && !dragging && (
+            <motion.span
+              layoutId={`lang-hover-${id}`}
+              className="absolute inset-0 rounded-full bg-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]"
+              transition={{ type: "spring", stiffness: 380, damping: 32 }}
+            />
+          )}
+          <span className="relative">{localeMeta[l].label}</span>
         </button>
       ))}
       <motion.div
         aria-hidden
         drag="x"
-        dragControls={controls}
-        dragListener={false}
         dragConstraints={{ left: 0, right: max }}
         dragElastic={0.12}
         dragMomentum={false}
-        onDragStart={() => (dragged.current = true)}
-        onDragEnd={() => select(Math.round(x.get() / s.w))}
+        onDragStart={() => setDragging(true)}
+        onDragEnd={() => {
+          setDragging(false);
+          select(Math.round(x.get() / s.w));
+        }}
+        whileTap={{ scale: 0.94 }}
         whileDrag={{ scale: 1.08 }}
         style={{ x, width: s.w, height: s.h }}
         className={cn(

@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Command, Menu, X } from "lucide-react";
@@ -39,6 +40,8 @@ function useActiveSection(ids: readonly SectionId[], enabled: boolean) {
 
 let introPlayed = false;
 
+const mobileLink = "flex items-baseline gap-4 py-1.5 text-[clamp(2.1rem,9.5vw,4rem)] font-semibold leading-tight tracking-[-0.04em] transition-colors";
+
 export function Header() {
   const { locale, t, sections } = useI18n();
   const pathname = usePathname();
@@ -65,7 +68,21 @@ export function Header() {
     return () => media.removeEventListener("change", close);
   }, []);
 
-  const highlight = hovered ?? active;
+  const casesHref = `/${locale}/projects`;
+  const casesActive = pathname.startsWith(casesHref);
+  const current = casesActive ? "cases" : active;
+  const highlight = hovered ?? current;
+
+  const pill = (
+    <motion.span
+      layoutId="nav-pill"
+      className="absolute inset-0 rounded-full bg-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]"
+      transition={{ type: "spring", stiffness: 380, damping: 32 }}
+    />
+  );
+
+  const linkClass = (key: string) =>
+    cn("relative block whitespace-nowrap rounded-full px-3 py-2 text-sm transition-colors duration-300 xl:px-4", current === key ? "text-fg" : "text-muted hover:text-fg");
 
   return (
     <>
@@ -89,23 +106,16 @@ export function Header() {
 
           <nav className="hidden lg:block" onPointerLeave={() => setHovered(null)}>
             <ul className="flex items-center">
+              <li>
+                <Link href={casesHref} onPointerEnter={() => setHovered("cases")} className={linkClass("cases")} aria-current={casesActive ? "page" : undefined}>
+                  {highlight === "cases" && pill}
+                  <span className="relative">{t.nav.cases}</span>
+                </Link>
+              </li>
               {sections.map((s) => (
                 <li key={s.id}>
-                  <AnchorLink
-                    to={s.id}
-                    onPointerEnter={() => setHovered(s.id)}
-                    className={cn(
-                      "relative block whitespace-nowrap rounded-full px-3 py-2 text-sm transition-colors duration-300 xl:px-4",
-                      active === s.id ? "text-fg" : "text-muted hover:text-fg",
-                    )}
-                  >
-                    {highlight === s.id && (
-                      <motion.span
-                        layoutId="nav-pill"
-                        className="absolute inset-0 rounded-full bg-white/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]"
-                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                      />
-                    )}
+                  <AnchorLink to={s.id} onPointerEnter={() => setHovered(s.id)} className={linkClass(s.id)}>
+                    {highlight === s.id && pill}
                     <span className="relative">{s.label}</span>
                   </AnchorLink>
                 </li>
@@ -164,23 +174,27 @@ export function Header() {
             transition={{ duration: 0.3 }}
           >
             <ul className="flex flex-1 flex-col justify-center gap-1 py-6">
+              <motion.li
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <Link href={casesHref} onClick={() => setMenuOpen(false)} className={cn(mobileLink, casesActive ? "text-fg" : "text-fg/60 hover:text-fg")}>
+                  <span className="font-mono text-xs text-subtle">01</span>
+                  {t.nav.cases}
+                </Link>
+              </motion.li>
               {sections.map((s, i) => (
                 <motion.li
                   key={s.id}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.6, delay: 0.05 * i, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.6, delay: 0.05 * (i + 1), ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <AnchorLink
-                    to={s.id}
-                    onClick={() => setMenuOpen(false)}
-                    className={cn(
-                      "flex items-baseline gap-4 py-1.5 text-[clamp(2.25rem,10vw,4rem)] font-semibold leading-tight tracking-[-0.04em] transition-colors",
-                      active === s.id ? "text-fg" : "text-fg/60 hover:text-fg",
-                    )}
-                  >
-                    <span className="font-mono text-xs text-subtle">0{i + 1}</span>
+                  <AnchorLink to={s.id} onClick={() => setMenuOpen(false)} className={cn(mobileLink, current === s.id ? "text-fg" : "text-fg/60 hover:text-fg")}>
+                    <span className="font-mono text-xs text-subtle">0{i + 2}</span>
                     {s.label}
                   </AnchorLink>
                 </motion.li>

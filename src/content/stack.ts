@@ -1,5 +1,5 @@
 export const stackItems = [
-  ["React", "Next.js", "TypeScript", "Tailwind CSS", "Motion", "HTML / CSS"],
+  ["JavaScript", "TypeScript", "React", "Next.js", "Tailwind CSS", "Motion", "HTML / CSS"],
   ["Node.js", "Server Actions", "REST APIs", "NextAuth", "Zod", "FastAPI"],
   ["PostgreSQL", "Prisma", "MySQL", "SQLite", "Redis"],
   ["Vercel", "Docker", "GitHub Actions", "S3", "Azure", "Linux"],
@@ -8,6 +8,7 @@ export const stackItems = [
 export const marquee = [
   "Next.js",
   "React",
+  "JavaScript",
   "TypeScript",
   "Node.js",
   "PostgreSQL",

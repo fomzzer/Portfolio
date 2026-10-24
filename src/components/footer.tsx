@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowUp, ArrowUpRight } from "lucide-react";
 import { profile } from "@/content/profile";
 import { fill } from "@/i18n/config";
@@ -11,7 +12,7 @@ import { BrandIcon } from "./ui/brand-icon";
 import { BrandMark, BrandWordmark } from "./brand";
 
 export function Footer() {
-  const { t, fullName, sections, profile: p } = useI18n();
+  const { locale, t, fullName, sections, profile: p } = useI18n();
 
   return (
     <footer className="relative mt-24 overflow-hidden border-t border-line md:mt-32">
@@ -38,6 +39,11 @@ export function Footer() {
         <div className="md:col-span-3">
           <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-subtle">{t.footer.sitemap}</p>
           <ul className="space-y-2.5">
+            <li>
+              <Link href={`/${locale}/projects`} className="text-sm text-muted transition-colors hover:text-fg">
+                {t.nav.cases}
+              </Link>
+            </li>
             {sections.map((s) => (
               <li key={s.id}>
                 <AnchorLink to={s.id} className="text-sm text-muted transition-colors hover:text-fg">

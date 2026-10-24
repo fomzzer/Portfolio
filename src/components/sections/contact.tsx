@@ -30,12 +30,12 @@ const inputLabel = `${labelBase} top-1/2 -translate-y-1/2 peer-focus:top-2 peer-
 
 const textareaLabel = `${labelBase} top-[1.05rem] peer-focus:top-2.5 peer-[:not(:placeholder-shown)]:top-2.5`;
 
-function Field({ name, label, type = "text", error, textarea }: { name: string; label: string; type?: string; error?: string; textarea?: boolean }) {
+function Field({ name, label, type = "text", error, textarea, grow }: { name: string; label: string; type?: string; error?: string; textarea?: boolean; grow?: boolean }) {
   return (
-    <div>
-      <div className="relative">
+    <div className={cn(grow && "flex flex-1 flex-col")}>
+      <div className={cn("relative", grow && "flex flex-1 flex-col")}>
         {textarea ? (
-          <textarea id={name} name={name} placeholder={label} rows={5} aria-invalid={!!error} className={cn(fieldClass, textareaClass, error && "border-red-400/50")} />
+          <textarea id={name} name={name} placeholder={label} rows={5} aria-invalid={!!error} className={cn(fieldClass, textareaClass, grow && "flex-1", error && "border-red-400/50")} />
         ) : (
           <input
             id={name}
@@ -130,8 +130,8 @@ export function Contact() {
         </Reveal>
 
         <Reveal delay={0.1} className="lg:col-span-7">
-          <GlassCard strong className="p-5 sm:p-8 md:p-10">
-            <form ref={formRef} onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
+          <GlassCard strong className="flex h-full flex-col p-5 sm:p-8 md:p-10">
+            <form ref={formRef} onSubmit={onSubmit} className="flex flex-1 flex-col gap-4" noValidate>
               <input type="hidden" name="locale" value={locale} />
               <div className="grid gap-4 sm:grid-cols-2">
                 <Field name="name" label={t.contact.name} error={state.errors?.name} />
@@ -162,7 +162,7 @@ export function Contact() {
                 </div>
               </fieldset>
 
-              <Field name="message" label={t.contact.message} textarea error={state.errors?.message} />
+              <Field name="message" label={t.contact.message} textarea grow error={state.errors?.message} />
 
               <div className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden>
                 <label htmlFor="company">Company</label>
