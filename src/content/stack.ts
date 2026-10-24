@@ -2,7 +2,7 @@ export const stackItems = [
   ["JavaScript", "TypeScript", "React", "Next.js", "Tailwind CSS", "Motion", "HTML / CSS"],
   ["Node.js", "Server Actions", "REST APIs", "NextAuth", "Zod", "FastAPI"],
   ["PostgreSQL", "Prisma", "MySQL", "SQLite", "Redis"],
-  ["Vercel", "Docker", "GitHub Actions", "S3", "Azure", "Linux"],
+  ["Vercel", "Cloudflare", "Docker", "GitHub Actions", "S3", "Azure", "Linux"],
 ] as const;
 
 export const marquee = [
@@ -18,6 +18,7 @@ export const marquee = [
   "REST APIs",
   "Docker",
   "Vercel",
+  "Cloudflare",
   "SEO",
   "Core Web Vitals",
   "Git",

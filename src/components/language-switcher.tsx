@@ -1,8 +1,8 @@
 "use client";
 
-import { animate, motion, useMotionValue, useMotionValueEvent } from "motion/react";
+import { animate, motion, useDragControls, useMotionValue, useMotionValueEvent } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
+import { useCallback, useEffect, useId, useRef, useState, useSyncExternalStore, type KeyboardEvent, type PointerEvent } from "react";
 import { localeCookie, localeMeta, locales, type Locale } from "@/i18n/config";
 import { useI18n } from "@/i18n/provider";
 import { cn } from "@/lib/utils";
@@ -47,22 +47,39 @@ export function useSwitchLocale() {
 
 const sizes = {
   sm: { w: 40, h: 28, text: "text-[11px]" },
+  touch: { w: 48, h: 36, text: "text-xs" },
   lg: { w: 64, h: 44, text: "text-sm" },
 };
 
 const spring = { type: "spring", stiffness: 420, damping: 34 } as const;
 
+const coarseQuery = "(pointer: coarse)";
+
+function subscribeCoarse(callback: () => void) {
+  const media = window.matchMedia(coarseQuery);
+  media.addEventListener("change", callback);
+  return () => media.removeEventListener("change", callback);
+}
+
 export function LanguageSwitcher({ className, size = "sm" }: { className?: string; size?: "sm" | "lg" }) {
   const { locale, t } = useI18n();
   const switchLocale = useSwitchLocale();
   const id = useId();
-  const s = sizes[size];
+  const controls = useDragControls();
+  const coarse = useSyncExternalStore(subscribeCoarse, () => window.matchMedia(coarseQuery).matches, () => false);
+  const s = sizes[size === "sm" && coarse ? "touch" : size];
   const index = locales.indexOf(locale);
   const max = (locales.length - 1) * s.w;
   const x = useMotionValue(index * s.w);
   const [current, setCurrent] = useState(index);
   const [hovered, setHovered] = useState<number | null>(null);
   const [dragging, setDragging] = useState(false);
+  const lastDragEnd = useRef(0);
+
+  function onTrackPointerDown(e: PointerEvent<HTMLDivElement>) {
+    if (e.pointerType === "mouse" || (e.target as HTMLElement).closest("[data-thumb]")) return;
+    controls.start(e);
+  }
 
   useMotionValueEvent(x, "change", (v) => setCurrent(Math.min(locales.length - 1, Math.max(0, Math.round(v / s.w)))));
 
@@ -92,8 +109,9 @@ export function LanguageSwitcher({ className, size = "sm" }: { className?: strin
       role="radiogroup"
       aria-label={t.nav.language}
       onKeyDown={onKeyDown}
+      onPointerDown={onTrackPointerDown}
       onPointerLeave={() => setHovered(null)}
-      className={cn("glass glass-edge relative flex w-fit shrink-0 select-none rounded-full p-1", className)}
+      className={cn("glass glass-edge relative flex w-fit shrink-0 touch-pan-y select-none rounded-full p-1", className)}
     >
       {locales.map((l, i) => (
         <button
@@ -104,8 +122,8 @@ export function LanguageSwitcher({ className, size = "sm" }: { className?: strin
           aria-label={localeMeta[l].name}
           lang={localeMeta[l].htmlLang}
           tabIndex={l === locale ? 0 : -1}
-          onPointerEnter={() => setHovered(i)}
-          onClick={() => select(i)}
+          onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(i)}
+          onClick={() => performance.now() - lastDragEnd.current > 300 && select(i)}
           style={{ width: s.w, height: s.h }}
           className={cn(
             "relative grid cursor-pointer place-items-center rounded-full font-mono font-medium transition-colors duration-300",
@@ -125,13 +143,16 @@ export function LanguageSwitcher({ className, size = "sm" }: { className?: strin
       ))}
       <motion.div
         aria-hidden
+        data-thumb
         drag="x"
+        dragControls={controls}
         dragConstraints={{ left: 0, right: max }}
         dragElastic={0.12}
         dragMomentum={false}
         onDragStart={() => setDragging(true)}
         onDragEnd={() => {
           setDragging(false);
+          lastDragEnd.current = performance.now();
           select(Math.round(x.get() / s.w));
         }}
         whileTap={{ scale: 0.94 }}

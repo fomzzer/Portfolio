@@ -19,7 +19,7 @@ export function BrandMark({ className }: { className?: string }) {
 export function BrandWordmark({ className }: { className?: string }) {
   return (
     <span className={cn("font-semibold tracking-[-0.03em] text-fg", className)}>
-      fomzzer<span className="text-subtle">.dev</span>
+      fomzzer<span className="text-zinc-400">.dev</span>
     </span>
   );
 }

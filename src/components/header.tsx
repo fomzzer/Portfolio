@@ -4,7 +4,7 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Command, Menu, X } from "lucide-react";
+import { ArrowUpRight, Command, Menu, X } from "lucide-react";
 import { useLenis } from "lenis/react";
 import type { SectionId } from "@/content/navigation";
 import { profile } from "@/content/profile";
@@ -62,7 +62,7 @@ export function Header() {
   }, [menuOpen, lenis]);
 
   useEffect(() => {
-    const media = window.matchMedia("(min-width: 1024px)");
+    const media = window.matchMedia("(min-width: 1280px)");
     const close = () => media.matches && setMenuOpen(false);
     media.addEventListener("change", close);
     return () => media.removeEventListener("change", close);
@@ -82,7 +82,7 @@ export function Header() {
   );
 
   const linkClass = (key: string) =>
-    cn("relative block whitespace-nowrap rounded-full px-3 py-2 text-sm transition-colors duration-300 xl:px-4", current === key ? "text-fg" : "text-muted hover:text-fg");
+    cn("relative block whitespace-nowrap rounded-full px-3 py-2 text-sm transition-colors duration-300 2xl:px-4", current === key ? "text-fg" : "text-muted hover:text-fg");
 
   return (
     <>
@@ -95,7 +95,7 @@ export function Header() {
       >
         <div
           className={cn(
-            "flex w-full max-w-6xl items-center justify-between gap-3 rounded-full p-1.5 transition-[background-color,box-shadow] duration-500 ease-out-expo sm:p-2",
+            "flex w-full max-w-7xl items-center justify-between gap-3 rounded-full p-1.5 transition-[background-color,box-shadow] duration-500 ease-out-expo sm:p-2",
             scrolled || menuOpen ? "glass-strong glass-edge" : "bg-transparent",
           )}
         >
@@ -104,14 +104,8 @@ export function Header() {
             <BrandWordmark className="text-[15px]" />
           </AnchorLink>
 
-          <nav className="hidden lg:block" onPointerLeave={() => setHovered(null)}>
+          <nav className="hidden xl:block" onPointerLeave={() => setHovered(null)}>
             <ul className="flex items-center">
-              <li>
-                <Link href={casesHref} onPointerEnter={() => setHovered("cases")} className={linkClass("cases")} aria-current={casesActive ? "page" : undefined}>
-                  {highlight === "cases" && pill}
-                  <span className="relative">{t.nav.cases}</span>
-                </Link>
-              </li>
               {sections.map((s) => (
                 <li key={s.id}>
                   <AnchorLink to={s.id} onPointerEnter={() => setHovered(s.id)} className={linkClass(s.id)}>
@@ -120,6 +114,16 @@ export function Header() {
                   </AnchorLink>
                 </li>
               ))}
+              <li aria-hidden className="mx-1.5 h-4 w-px bg-line-strong" />
+              <li>
+                <Link href={casesHref} onPointerEnter={() => setHovered("cases")} className={linkClass("cases")} aria-current={casesActive ? "page" : undefined}>
+                  {highlight === "cases" && pill}
+                  <span className="relative inline-flex items-center gap-1">
+                    {t.nav.cases}
+                    <ArrowUpRight className="size-3.5 opacity-60" />
+                  </span>
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -127,7 +131,7 @@ export function Header() {
             <LanguageSwitcher className="hidden sm:flex" />
             <button
               onClick={toggle}
-              className="glass glass-edge hidden h-9 items-center gap-1.5 rounded-full px-3 text-xs text-muted transition-colors hover:text-fg xl:flex"
+              className="glass glass-edge hidden h-9 items-center gap-1.5 rounded-full px-3 text-xs text-muted transition-colors hover:text-fg 2xl:flex"
               aria-label={t.nav.openCommand}
             >
               <Command className="size-3.5" />
@@ -141,7 +145,7 @@ export function Header() {
             </AnchorLink>
             <button
               onClick={() => setMenuOpen((v) => !v)}
-              className="glass glass-edge grid size-9 place-items-center rounded-full lg:hidden"
+              className="glass glass-edge grid size-9 place-items-center rounded-full xl:hidden"
               aria-label={menuOpen ? t.nav.closeMenu : t.nav.openMenu}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
@@ -167,38 +171,39 @@ export function Header() {
           <motion.div
             id="mobile-menu"
             data-lenis-prevent
-            className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-ink/85 px-6 pb-8 pt-24 backdrop-blur-2xl sm:px-10 lg:hidden"
+            className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-ink/85 px-6 pb-8 pt-24 backdrop-blur-2xl sm:px-10 xl:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
             <ul className="flex flex-1 flex-col justify-center gap-1 py-6">
-              <motion.li
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <Link href={casesHref} onClick={() => setMenuOpen(false)} className={cn(mobileLink, casesActive ? "text-fg" : "text-fg/60 hover:text-fg")}>
-                  <span className="font-mono text-xs text-subtle">01</span>
-                  {t.nav.cases}
-                </Link>
-              </motion.li>
               {sections.map((s, i) => (
                 <motion.li
                   key={s.id}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.6, delay: 0.05 * (i + 1), ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.6, delay: 0.05 * i, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <AnchorLink to={s.id} onClick={() => setMenuOpen(false)} className={cn(mobileLink, current === s.id ? "text-fg" : "text-fg/60 hover:text-fg")}>
-                    <span className="font-mono text-xs text-subtle">0{i + 2}</span>
+                    <span className="font-mono text-xs text-subtle">0{i + 1}</span>
                     {s.label}
                   </AnchorLink>
                 </motion.li>
               ))}
+              <motion.li
+                className="mt-4 border-t border-line pt-4"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.6, delay: 0.05 * sections.length, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <Link href={casesHref} onClick={() => setMenuOpen(false)} className={cn(mobileLink, "items-center", casesActive ? "text-fg" : "text-fg/60 hover:text-fg")}>
+                  {t.nav.cases}
+                  <ArrowUpRight className="size-7 opacity-60 sm:size-9" />
+                </Link>
+              </motion.li>
             </ul>
             <motion.div
               className="flex flex-col gap-6 border-t border-line pt-6"

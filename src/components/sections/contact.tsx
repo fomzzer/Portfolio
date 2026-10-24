@@ -67,8 +67,13 @@ export function Contact() {
   const [budget, setBudget] = useState<Budget>("unsure");
   const [copied, setCopied] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
-  const [state, action, pending] = useActionState(async (prev: ContactState, data: FormData) => {
-    const result = await sendMessage(prev, data);
+  const [state, action, pending] = useActionState(async (prev: ContactState, data: FormData): Promise<ContactState> => {
+    let result: ContactState;
+    try {
+      result = await sendMessage(prev, data);
+    } catch {
+      return { status: "error", message: t.contact.errors.generic };
+    }
     if (result.status === "success") {
       formRef.current?.reset();
       setBudget("unsure");

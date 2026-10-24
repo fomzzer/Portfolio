@@ -11,6 +11,10 @@ import { uk } from "./dictionaries/uk";
 
 const dictionaries: Record<Locale, Dictionary> = { en, bg, uk };
 
+function formatPeriod(from: string, to: string | null, now: string) {
+  return to === from ? from : `${from} — ${to ?? now}`;
+}
+
 export function getContent(locale: Locale) {
   const t = dictionaries[locale];
 
@@ -35,9 +39,10 @@ export function getContent(locale: Locale) {
     sections: sectionIds.map((id) => ({ id, label: t.nav[id] })),
     projects,
     experience: experienceData.map((data, i) => ({
-      ...data,
+      tags: data.tags,
       ...t.experience.items[i],
-      period: data.to === data.from ? data.from : `${data.from} — ${data.to ?? t.experience.now}`,
+      period: formatPeriod(data.from, data.to, t.experience.now),
+      project: "project" in data ? { ...data.project, ...t.experience.project } : null,
     })),
     stackGroups: t.stack.groups.map((group, i) => ({ ...group, items: stackItems[i] })),
     services: t.services.items.map((item, i) => ({ ...item, icon: serviceIcons[i] })),

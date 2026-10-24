@@ -8,7 +8,7 @@ import { useI18n } from "@/i18n/provider";
 import { SplitText } from "../ui/split-text";
 import { Magnetic } from "../ui/magnetic";
 import { AnchorLink } from "../anchor-link";
-import { LiquidOrb } from "../effects/liquid-orb";
+import { CodeOrb } from "../effects/code-orb";
 import { LocalTime } from "../local-time";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -26,9 +26,9 @@ export function Hero() {
     <section ref={ref} id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden pt-24 sm:pt-28">
       <motion.div
         style={{ y: orbY, scale: orbScale }}
-        className="pointer-events-none absolute right-[-38%] top-[6%] w-[110vw] max-w-[720px] sm:right-[-22%] sm:top-[8%] sm:w-[80vw] lg:right-[-4%] lg:top-[10%] lg:w-[56vw]"
+        className="pointer-events-none absolute right-[-26%] top-[25vw] w-[90vw] max-w-[720px] sm:right-[-18%] sm:top-[-7vw] sm:w-[78vw] lg:right-[-4%] lg:top-[10%] lg:w-[56vw]"
       >
-        <LiquidOrb className="w-full opacity-50 sm:opacity-70 lg:opacity-100" />
+        <CodeOrb className="w-full opacity-60 sm:opacity-80 lg:opacity-100" />
       </motion.div>
 
       <motion.div style={{ y, opacity }} className="container-page relative z-10 flex flex-1 flex-col justify-center">

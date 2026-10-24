@@ -126,20 +126,16 @@ function CommandMenu() {
                 <Command.Empty className="px-3 py-10 text-center text-sm text-subtle">{t.command.empty}</Command.Empty>
 
                 <Command.Group heading={t.command.navigate} className={groupClass}>
-                  <Command.Item value={`cases ${t.nav.cases}`} onSelect={() => run(() => router.push(`/${locale}/projects`))} className={itemClass}>
-                    <LayoutGrid className="size-4" />
-                    {t.nav.cases}
-                  </Command.Item>
-                  <Command.Item value={`work latest ${t.work.eyebrow}`} onSelect={() => goSection("work")} className={itemClass}>
-                    <Hash className="size-4" />
-                    {t.work.eyebrow}
-                  </Command.Item>
                   {sections.map((s) => (
                     <Command.Item key={s.id} value={`section ${s.id} ${s.label}`} onSelect={() => goSection(s.id)} className={itemClass}>
                       <Hash className="size-4" />
                       {s.label}
                     </Command.Item>
                   ))}
+                  <Command.Item value={`cases ${t.nav.cases}`} onSelect={() => run(() => router.push(`/${locale}/projects`))} className={itemClass}>
+                    <LayoutGrid className="size-4" />
+                    {t.nav.cases}
+                  </Command.Item>
                 </Command.Group>
 
                 <Command.Group heading={t.command.projects} className={groupClass}>

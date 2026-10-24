@@ -39,11 +39,6 @@ export function Footer() {
         <div className="md:col-span-3">
           <p className="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-subtle">{t.footer.sitemap}</p>
           <ul className="space-y-2.5">
-            <li>
-              <Link href={`/${locale}/projects`} className="text-sm text-muted transition-colors hover:text-fg">
-                {t.nav.cases}
-              </Link>
-            </li>
             {sections.map((s) => (
               <li key={s.id}>
                 <AnchorLink to={s.id} className="text-sm text-muted transition-colors hover:text-fg">
@@ -51,6 +46,12 @@ export function Footer() {
                 </AnchorLink>
               </li>
             ))}
+            <li className="border-t border-line pt-2.5">
+              <Link href={`/${locale}/projects`} className="inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-fg">
+                {t.nav.cases}
+                <ArrowUpRight className="size-3.5 opacity-60" />
+              </Link>
+            </li>
           </ul>
         </div>
 
@@ -76,8 +77,8 @@ export function Footer() {
       </div>
 
       <div className="container-page relative">
-        <p aria-hidden className="text-gradient pointer-events-none select-none whitespace-nowrap text-center text-[15.5vw] font-semibold leading-[0.85] tracking-[-0.07em] opacity-[0.14] xl:text-[12rem]">
-          fomzzer<span className="opacity-60">.dev</span>
+        <p aria-hidden className="text-gradient pointer-events-none select-none whitespace-nowrap text-center text-[14vw] font-semibold leading-[0.9] tracking-[-0.07em] opacity-[0.16] md:text-[13vw] xl:text-[11rem]">
+          fomzzer.dev
         </p>
       </div>
 
