@@ -12,7 +12,7 @@ export type ProjectData = {
   accent: string;
   featured: boolean;
   stack: string[];
-  metrics: string[];
+  metrics: { value: string; note?: string }[];
   gallery: { desktop: Shot[]; mobile: Shot[] };
 };
 
@@ -29,7 +29,7 @@ export const projectData: ProjectData[] = [
     accent: "#9ae6b4",
     featured: true,
     stack: ["Next.js 16", "React 19", "PostgreSQL", "Prisma", "NextAuth", "Tailwind CSS", "LiqPay", "Nova Poshta API", "Resend", "S3", "Vercel"],
-    metrics: ["17", "30+", "100%", "24/7"],
+    metrics: [{ value: "17" }, { value: "30+" }, { value: "12K+", note: "100%" }, { value: "24/7" }],
     gallery: {
       desktop: [desktop("home"), desktop("shop"), desktop("product")],
       mobile: [mobile("mobile-home"), mobile("mobile-shop"), mobile("mobile-product")],

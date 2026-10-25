@@ -12,7 +12,7 @@ export function GlassCard({ className, strong, children, onPointerMove, ...props
 
   function handleMove(e: PointerEvent<HTMLDivElement>) {
     const el = ref.current;
-    if (el) {
+    if (el && e.pointerType === "mouse") {
       const rect = el.getBoundingClientRect();
       el.style.setProperty("--x", `${e.clientX - rect.left}px`);
       el.style.setProperty("--y", `${e.clientY - rect.top}px`);
@@ -24,7 +24,7 @@ export function GlassCard({ className, strong, children, onPointerMove, ...props
     <div
       ref={ref}
       onPointerMove={handleMove}
-      className={cn(strong ? "glass-strong" : "glass", "glass-edge spotlight rounded-3xl", className)}
+      className={cn(strong ? "glass-strong" : "glass", "glass-card glass-edge spotlight rounded-3xl", className)}
       {...props}
     >
       {children}

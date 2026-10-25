@@ -11,11 +11,15 @@ export function markLocaleSwitch() {
   (window as SwitchWindow)[key] = performance.now();
 }
 
+export function isLocaleSwitching() {
+  const at = (window as SwitchWindow)[key];
+  return at !== undefined && performance.now() - at < 3000;
+}
+
 export function PageFade({ children, className }: { children: ReactNode; className?: string }) {
   const [animateIn] = useState(() => {
     if (typeof window === "undefined") return false;
-    const at = (window as SwitchWindow)[key];
-    return at !== undefined && performance.now() - at < 3000;
+    return isLocaleSwitching();
   });
 
   return (

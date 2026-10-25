@@ -23,7 +23,7 @@ export function getContent(locale: Locale) {
     return {
       ...data,
       ...text,
-      metrics: data.metrics.map((value, i) => ({ value, label: text.metrics[i] ?? "" })),
+      metrics: data.metrics.map((m, i) => ({ value: m.value, label: text.metrics[i]?.label ?? "", note: m.note && text.metrics[i]?.note ? { value: m.note, label: text.metrics[i].note } : null })),
     };
   });
 

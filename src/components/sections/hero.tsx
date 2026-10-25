@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { useRef, type CSSProperties } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import { profile } from "@/content/profile";
 import { useI18n } from "@/i18n/provider";
@@ -9,9 +9,8 @@ import { SplitText } from "../ui/split-text";
 import { Magnetic } from "../ui/magnetic";
 import { AnchorLink } from "../anchor-link";
 import { CodeOrb } from "../effects/code-orb";
+import { PauseOffscreen } from "../ui/pause-offscreen";
 import { LocalTime } from "../local-time";
-
-const ease = [0.16, 1, 0.3, 1] as const;
 
 export function Hero() {
   const { t, profile: p } = useI18n();
@@ -28,22 +27,22 @@ export function Hero() {
         style={{ y: orbY, scale: orbScale }}
         className="pointer-events-none absolute right-[-26%] top-[25vw] w-[90vw] max-w-[720px] sm:right-[-18%] sm:top-[-7vw] sm:w-[78vw] lg:right-[-4%] lg:top-[10%] lg:w-[56vw]"
       >
-        <CodeOrb className="w-full opacity-60 sm:opacity-80 lg:opacity-100" />
+        <PauseOffscreen>
+          <CodeOrb className="w-full opacity-60 sm:opacity-80 lg:opacity-100" />
+        </PauseOffscreen>
       </motion.div>
 
       <motion.div style={{ y, opacity }} className="container-page relative z-10 flex flex-1 flex-col justify-center">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3, ease }}
-          className="glass glass-edge mb-6 inline-flex w-fit max-w-full items-center gap-3 rounded-full py-1.5 pl-2 pr-4 text-xs text-muted sm:mb-8"
+        <div
+          style={{ "--enter-y": "16px", animationDelay: "0.3s" } as CSSProperties}
+          className="animate-enter glass glass-edge mb-6 inline-flex w-fit max-w-full items-center gap-3 rounded-full py-1.5 pl-2 pr-4 text-xs text-muted sm:mb-8"
         >
           <span className="flex shrink-0 items-center gap-2.5 rounded-full bg-white/[0.06] py-1 pl-3 pr-3 font-medium text-fg">
             <span className="size-1.5 rounded-full bg-emerald-300 animate-pulse-dot" />
             {profile.available ? t.hero.available : t.hero.busy}
           </span>
           <span className="truncate">{p.availability}</span>
-        </motion.div>
+        </div>
 
         <h1 className="max-w-5xl text-[clamp(2.9rem,12.5vw,9.5rem)] font-semibold leading-[0.9] tracking-[-0.065em] sm:text-[clamp(3.2rem,11vw,9.5rem)]">
           <span className="block text-fg">
@@ -55,21 +54,11 @@ export function Hero() {
         </h1>
 
         <div className="mt-8 grid gap-8 sm:mt-10 lg:mt-14 lg:grid-cols-12 lg:items-end">
-          <motion.p
-            className="max-w-md text-base leading-relaxed text-muted sm:text-lg lg:col-span-5 lg:text-xl"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.9, ease }}
-          >
+          <p className="animate-enter max-w-md text-base leading-relaxed text-muted sm:text-lg lg:col-span-5 lg:text-xl" style={{ animationDelay: "0.9s" }}>
             {p.headline}
-          </motion.p>
+          </p>
 
-          <motion.div
-            className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:col-span-7 lg:justify-end"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 1.05, ease }}
-          >
+          <div className="animate-enter flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:col-span-7 lg:justify-end" style={{ animationDelay: "1.05s" }}>
             <Magnetic className="block sm:inline-block">
               <AnchorLink
                 to="work"
@@ -89,15 +78,13 @@ export function Hero() {
                 {t.hero.getInTouch}
               </AnchorLink>
             </Magnetic>
-          </motion.div>
+          </div>
         </div>
       </motion.div>
 
-      <motion.div
-        className="container-page relative z-10 flex items-center justify-between py-6 font-mono text-[11px] uppercase tracking-[0.2em] text-subtle sm:py-8"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1.3 }}
+      <div
+        className="animate-enter-fade container-page relative z-10 flex items-center justify-between py-6 font-mono text-[11px] uppercase tracking-[0.2em] text-subtle sm:py-8"
+        style={{ animationDelay: "1.3s" }}
       >
         <span className="hidden sm:block">{p.location}</span>
         <AnchorLink to="work" className="mx-auto flex items-center gap-3 transition-colors hover:text-fg sm:mx-0">
@@ -112,7 +99,7 @@ export function Hero() {
           <ArrowDown className="size-3" />
         </AnchorLink>
         <LocalTime timeZone={profile.timezone} className="hidden tabular-nums sm:block" />
-      </motion.div>
+      </div>
     </section>
   );
 }

@@ -143,6 +143,7 @@ export function LanguageSwitcher({ className, size = "sm" }: { className?: strin
       ))}
       <motion.div
         aria-hidden
+        tabIndex={-1}
         data-thumb
         drag="x"
         dragControls={controls}

@@ -7,6 +7,7 @@ import { isLocale, localeMeta, locales } from "@/i18n/config";
 import { getContent, getNextProject, getProject } from "@/i18n/content";
 import { ProjectCover } from "@/components/project-cover";
 import { ProjectGallery } from "@/components/project-gallery";
+import { Enter } from "@/components/ui/enter";
 import { Reveal } from "@/components/ui/reveal";
 import { SplitText } from "@/components/ui/split-text";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -56,12 +57,12 @@ export default async function ProjectPage({ params }: Props) {
   return (
     <article className="pt-28 md:pt-40">
       <div className="container-page">
-        <Reveal>
+        <Enter>
           <Link href={`/${locale}/projects`} className="group mb-10 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg md:mb-12">
             <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
             {t.caseStudy.back}
           </Link>
-        </Reveal>
+        </Enter>
 
         <p className="mb-6 font-mono text-xs uppercase tracking-[0.25em] text-subtle">
           {t.caseStudy.label} · {project.year}
@@ -69,11 +70,11 @@ export default async function ProjectPage({ params }: Props) {
         <h1 className="text-[clamp(2.5rem,9vw,7rem)] font-semibold leading-[0.95] tracking-[-0.06em] text-balance">
           <SplitText text={project.title} immediate delay={0.1} />
         </h1>
-        <Reveal delay={0.3}>
+        <Enter delay={0.3}>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted sm:text-xl md:text-2xl">{project.tagline}</p>
-        </Reveal>
+        </Enter>
 
-        <Reveal delay={0.4}>
+        <Enter delay={0.4}>
           <div className="mt-10 flex flex-col gap-3 sm:mt-12 sm:flex-row sm:flex-wrap">
             {project.url && (
               <a
@@ -100,13 +101,13 @@ export default async function ProjectPage({ params }: Props) {
               </a>
             )}
           </div>
-        </Reveal>
+        </Enter>
 
-        <Reveal delay={0.5} className="mt-12 md:mt-16">
+        <Enter delay={0.5} className="mt-12 md:mt-16">
           <GlassCard className="p-2 sm:p-3 md:p-4">
             <ProjectCover project={project} priority sizes="(min-width: 1240px) 1100px, 100vw" className="aspect-[4/3] sm:aspect-[16/10] md:aspect-[16/8]" />
           </GlassCard>
-        </Reveal>
+        </Enter>
 
         <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-line bg-line md:grid-cols-4">
           {meta.map((m) => (
@@ -140,12 +141,20 @@ export default async function ProjectPage({ params }: Props) {
           </div>
         </div>
 
-        <div className="mt-20 grid grid-cols-2 gap-4 sm:gap-6 md:mt-28 md:grid-cols-4">
+        <div className="mt-20 grid grid-cols-2 gap-4 sm:gap-6 md:mt-28 lg:grid-cols-4">
           {project.metrics.map((m, i) => (
             <Reveal key={m.label} delay={i * 0.07}>
-              <GlassCard className="h-full p-5 sm:p-6 md:p-8">
+              <GlassCard className="flex h-full flex-col p-5 sm:p-6 md:p-8">
                 <Counter value={m.value} className="text-gradient block text-3xl font-semibold tabular-nums tracking-[-0.05em] sm:text-4xl md:text-5xl" />
                 <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-subtle sm:text-[11px]">{m.label}</p>
+                {m.note && (
+                  <div className="mt-auto pt-4">
+                    <p className="flex flex-wrap items-baseline gap-x-1.5 border-t border-line pt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-subtle sm:text-[11px]">
+                      <span className="text-sm font-semibold tabular-nums tracking-[-0.02em] text-fg sm:text-base">{m.note.value}</span>
+                      {m.note.label}
+                    </p>
+                  </div>
+                )}
               </GlassCard>
             </Reveal>
           ))}

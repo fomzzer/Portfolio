@@ -3,10 +3,10 @@
 import { headers } from "next/headers";
 import { Resend } from "resend";
 import { z } from "zod";
-import { budgets } from "@/content/contact";
-import { defaultLocale, isLocale } from "@/i18n/config";
+import { budgets, type Budget } from "@/content/contact";
+import { defaultLocale, isLocale, type Locale } from "@/i18n/config";
 import { getContent } from "@/i18n/content";
-import { en } from "@/i18n/dictionaries/en";
+import { profile } from "@/content/profile";
 
 const schema = z.object({
   name: z.string().trim().min(2).max(80),
@@ -40,6 +40,68 @@ function escape(value: string) {
   return value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string);
 }
 
+const budgetLabels: Record<Budget, string> = {
+  lt300: "до €300",
+  "300to800": "€300 – 800",
+  "800to2k": "€800 – 2 000",
+  gt2k: "от €2 000",
+  unsure: "Не определён",
+};
+
+const languageLabels: Record<Locale, string> = { en: "Английский", bg: "Болгарский", uk: "Украинский" };
+
+type Inquiry = { name: string; email: string; budget: string; language: string; message: string; date: string };
+
+function row(label: string, value: string, last = false) {
+  return `<tr>
+    <td style="padding:14px 0;${last ? "" : "border-bottom:1px solid #1f1f23;"}font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#71717a;width:130px;vertical-align:middle">${label}</td>
+    <td style="padding:14px 0;${last ? "" : "border-bottom:1px solid #1f1f23;"}font-size:15px;color:#f5f5f4;vertical-align:middle">${value}</td>
+  </tr>`;
+}
+
+function renderEmail({ name, email, budget, language, message, date }: Inquiry) {
+  const safeEmail = escape(email);
+  const reply = `mailto:${encodeURIComponent(email)}?subject=${encodeURIComponent(`Re: заявка с ${profile.brand}`)}`;
+  return `<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><meta name="supported-color-schemes" content="dark"><title>Новая заявка</title></head>
+<body style="margin:0;padding:0;background:#050505;-webkit-text-size-adjust:100%">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0">${escape(name)} · ${escape(budget)} — ${escape(message.slice(0, 120))}</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#050505" style="background:#050505">
+<tr><td align="center" style="padding:40px 16px">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+    <tr><td style="padding:0 4px 24px">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+        <td style="vertical-align:middle">
+          <span style="display:inline-block;width:36px;height:36px;line-height:36px;border-radius:999px;background:#f5f5f4;color:#050505;text-align:center;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-weight:700;font-size:17px;vertical-align:middle">f.</span>
+          <span style="display:inline-block;margin-left:10px;font-size:17px;font-weight:600;letter-spacing:-0.02em;color:#f5f5f4;vertical-align:middle">${profile.brand}</span>
+        </td>
+        <td align="right" style="vertical-align:middle;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#71717a">${escape(date)}</td>
+      </tr></table>
+    </td></tr>
+    <tr><td bgcolor="#0e0e10" style="background:#0e0e10;border:1px solid #1f1f23;border-radius:24px;padding:36px 32px">
+      <p style="margin:0 0 14px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#71717a"><span style="display:inline-block;width:7px;height:7px;border-radius:999px;background:#6ee7b7;margin-right:8px;vertical-align:middle"></span>Новая заявка с сайта</p>
+      <h1 style="margin:0;font-size:30px;line-height:1.15;font-weight:600;letter-spacing:-0.035em;color:#f5f5f4">${escape(name)}</h1>
+      <p style="margin:8px 0 0;font-size:15px;color:#a1a1aa"><a href="mailto:${safeEmail}" style="color:#a1a1aa;text-decoration:none">${safeEmail}</a></p>
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:28px;border-top:1px solid #1f1f23">
+        ${row("Почта", `<a href="mailto:${safeEmail}" style="color:#f5f5f4;text-decoration:none">${safeEmail}</a>`)}
+        ${row("Бюджет", escape(budget))}
+        ${row("Язык сайта", escape(language), true)}
+      </table>
+      <p style="margin:28px 0 12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#71717a">Сообщение</p>
+      <div style="background:#141417;border:1px solid #1f1f23;border-radius:16px;padding:20px 22px;font-size:15px;line-height:1.65;color:#e4e4e7;white-space:pre-wrap;word-break:break-word">${escape(message)}</div>
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-top:28px"><tr>
+        <td bgcolor="#f5f5f4" style="border-radius:999px;background:#f5f5f4"><a href="${reply}" style="display:inline-block;padding:14px 28px;font-size:14px;font-weight:600;color:#050505;text-decoration:none;border-radius:999px">Ответить клиенту →</a></td>
+      </tr></table>
+    </td></tr>
+    <tr><td style="padding:20px 4px 0;font-size:12px;line-height:1.6;color:#52525b">Письмо отправлено формой обратной связи ${profile.brand}. Нажмите «Ответить» в почте, чтобы написать клиенту напрямую.</td></tr>
+  </table>
+</td></tr>
+</table>
+</body>
+</html>`;
+}
+
 export async function sendMessage(_: ContactState, formData: FormData): Promise<ContactState> {
   const rawLocale = formData.get("locale");
   const locale = typeof rawLocale === "string" && isLocale(rawLocale) ? rawLocale : defaultLocale;
@@ -65,7 +127,9 @@ export async function sendMessage(_: ContactState, formData: FormData): Promise<
   if (rateLimited(ip)) return { status: "error", message: t.contact.errors.rate };
 
   const { name, email, budget, message } = parsed.data;
-  const budgetLabel = en.contact.budgets[budget];
+  const budgetLabel = budgetLabels[budget];
+  const language = languageLabels[locale];
+  const date = new Intl.DateTimeFormat("ru-RU", { timeZone: profile.timezone, day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }).format(new Date());
   const apiKey = env("RESEND_API_KEY");
   const to = env("CONTACT_TO_EMAIL");
 
@@ -79,12 +143,9 @@ export async function sendMessage(_: ContactState, formData: FormData): Promise<
     from: env("CONTACT_FROM_EMAIL") ?? "fomzzer.dev <onboarding@resend.dev>",
     to,
     replyTo: email,
-    subject: `New inquiry from ${name} · ${budgetLabel} · ${locale.toUpperCase()}`,
-    text: `Name: ${name}\nEmail: ${email}\nBudget: ${budgetLabel}\nLanguage: ${locale}\n\n${message}`,
-    html: `<div style="font-family:system-ui,sans-serif;font-size:15px;line-height:1.6;color:#111">
-      <p><strong>Name:</strong> ${escape(name)}<br/><strong>Email:</strong> ${escape(email)}<br/><strong>Budget:</strong> ${escape(budgetLabel)}<br/><strong>Language:</strong> ${locale}</p>
-      <p style="white-space:pre-wrap">${escape(message)}</p>
-    </div>`,
+    subject: `Новая заявка: ${name} · ${budgetLabel}`,
+    text: `Новая заявка с сайта ${profile.brand}\n\nИмя: ${name}\nПочта: ${email}\nБюджет: ${budgetLabel}\nЯзык сайта: ${language}\nДата: ${date}\n\nСообщение:\n${message}`,
+    html: renderEmail({ name, email, budget: budgetLabel, language, message, date }),
   });
 
   if (error) {

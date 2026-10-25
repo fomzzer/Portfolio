@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { isLocale, localeMeta, locales } from "@/i18n/config";
 import { getContent } from "@/i18n/content";
 import { ProjectCard } from "@/components/project-card";
+import { Enter } from "@/components/ui/enter";
 import { Reveal } from "@/components/ui/reveal";
 import { SplitText } from "@/components/ui/split-text";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -36,20 +37,20 @@ export default async function CasesPage({ params }: Props) {
     <section className="container-page pt-32 md:pt-40">
       <div className="mb-14 grid gap-6 md:mb-20 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-8">
-          <Reveal>
+          <Enter>
             <div className="mb-5 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-subtle">
               <span className="text-muted">{String(projects.length).padStart(2, "0")}</span>
               <span className="h-px w-8 bg-line-strong" />
               <span>{t.cases.eyebrow}</span>
             </div>
-          </Reveal>
+          </Enter>
           <h1 className="max-w-4xl text-[clamp(2.5rem,7vw,5.5rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-balance">
             <SplitText text={t.cases.title} immediate delay={0.1} />
           </h1>
         </div>
-        <Reveal delay={0.2} className="lg:col-span-4">
+        <Enter delay={0.2} className="lg:col-span-4">
           <p className="max-w-md text-base leading-relaxed text-muted lg:ml-auto">{t.cases.description}</p>
-        </Reveal>
+        </Enter>
       </div>
 
       <div className="flex flex-col gap-6 md:gap-8">
@@ -67,6 +68,7 @@ export default async function CasesPage({ params }: Props) {
             </div>
             <Link
               href={`/${locale}#contact`}
+              scroll={false}
               className="group inline-flex h-14 shrink-0 items-center gap-3 rounded-full bg-fg pl-7 pr-2 text-sm font-medium text-ink shadow-[0_10px_50px_-12px_rgba(255,255,255,0.5)]"
             >
               {t.cases.ctaButton}

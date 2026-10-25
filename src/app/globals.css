@@ -38,6 +38,22 @@
     100% { background-position: -200% 0; }
   }
 
+  @keyframes enter {
+    from { opacity: 0.01; transform: translate3d(0, var(--enter-y, 20px), 0); }
+  }
+
+  @keyframes enter-word {
+    from { opacity: 0.01; transform: translateY(110%) rotate(4deg); }
+  }
+
+  @keyframes enter-fade {
+    from { opacity: 0.01; }
+  }
+
+  @keyframes enter-scale {
+    from { opacity: 0.01; transform: scale(0.9); }
+  }
+
   @keyframes pulse-dot {
     0% { box-shadow: 0 0 0 0 rgb(134 239 172 / 0.6); }
     100% { box-shadow: 0 0 0 6px rgb(134 239 172 / 0); }
@@ -90,6 +106,18 @@ body {
 
   img {
     -webkit-user-drag: none;
+  }
+}
+
+[data-paused],
+[data-paused] * {
+  animation-play-state: paused !important;
+}
+
+@media (hover: none) {
+  .glass-card.glass-strong {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
   }
 }
 
@@ -172,6 +200,22 @@ html[data-switching] footer {
     mask-composite: exclude;
     pointer-events: none;
   }
+}
+
+@utility animate-enter {
+  animation: enter var(--enter-duration, 1s) var(--ease-out-expo) both;
+}
+
+@utility animate-enter-word {
+  animation: enter-word 1s var(--ease-out-expo) both;
+}
+
+@utility animate-enter-fade {
+  animation: enter-fade 1s ease-out both;
+}
+
+@utility animate-enter-scale {
+  animation: enter-scale 1.6s var(--ease-out-expo) both;
 }
 
 @utility text-gradient {

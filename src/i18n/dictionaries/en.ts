@@ -81,7 +81,8 @@ export const en = {
     facts: [
       { label: "Based in", value: "Sofia, Bulgaria" },
       { label: "Work format", value: "Remote · Worldwide" },
-      { label: "Education", value: "TU Sofia · 2nd year" },
+      { label: "Education", value: "Technical University of Sofia" },
+      { label: "Specialty", value: "Intelligent Systems & AI · 2nd year" },
       { label: "Focus", value: "Websites & web apps" },
     ],
   },
@@ -114,7 +115,6 @@ export const en = {
       },
     ],
     project: {
-      label: "Key project",
       title: "Prirodni Skarby — online store",
       description: "Delivered the full cycle from scratch: architecture, database, online payments, delivery integration, admin panel and production deployment.",
       open: "Case study",
@@ -142,6 +142,8 @@ export const en = {
     title: "Have a project in mind? Let's talk.",
     description: "Tell me about your idea, timeline and budget. I work remotely and usually reply within a day.",
     email: "Email",
+    phone: "Phone",
+    call: "Call",
     copy: "Copy address",
     copied: "Copied",
     worldwide: "Based in {location}, working remotely worldwide.",
@@ -210,7 +212,7 @@ export const en = {
         { title: "Admin panel", text: "Products, orders, customers, reviews, messages with replies, image uploads to S3-compatible storage." },
         { title: "Security", text: "Admin sessions with challenges, audit log, rate limiting, strict security headers and CSP." },
       ],
-      metrics: ["Database models", "Routes & pages", "Custom code", "Live in production"],
+      metrics: [{ label: "Database models" }, { label: "Routes & pages" }, { label: "Lines of code", note: "custom code" }, { label: "Live in production" }],
     },
   } as Record<string, ProjectText>,
 };
@@ -224,7 +226,7 @@ export type ProjectText = {
   challenge: string;
   solution: string;
   features: { title: string; text: string }[];
-  metrics: string[];
+  metrics: { label: string; note?: string }[];
 };
 
 export type Dictionary = typeof en;

@@ -79,6 +79,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     jobTitle: content.profile.role,
     url: `${siteUrl}/${locale}`,
     email: `mailto:${profile.email}`,
+    telephone: profile.phones.map((p) => p.href.replace("tel:", "")),
     address: { "@type": "PostalAddress", addressLocality: "Sofia", addressCountry: "BG" },
     alumniOf: { "@type": "CollegeOrUniversity", name: "Technical University of Sofia" },
     sameAs: profile.socials.map((s) => s.href),

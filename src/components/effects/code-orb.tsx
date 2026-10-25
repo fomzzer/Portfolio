@@ -43,12 +43,10 @@ export function CodeOrb({ className }: { className?: string }) {
   }, [mx, my]);
 
   return (
-    <motion.div
+    <div
       aria-hidden
-      className={cn("@container pointer-events-none relative aspect-square [contain:layout_paint] [perspective:1200px]", className)}
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 1.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+      className={cn("@container animate-enter-scale pointer-events-none relative aspect-square [contain:layout_paint] [perspective:1200px]", className)}
+      style={{ animationDelay: "0.3s" }}
     >
       <motion.div className="absolute inset-0 will-change-transform [transform-style:preserve-3d]" style={{ x: tx, y: ty, rotateX, rotateY }}>
         <div className="absolute inset-[-10%] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.06),rgba(255,255,255,0.015)_40%,transparent_65%)]" />
@@ -85,6 +83,6 @@ export function CodeOrb({ className }: { className?: string }) {
           </span>
         </motion.div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }

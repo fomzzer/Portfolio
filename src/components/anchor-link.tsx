@@ -8,13 +8,24 @@ import { useI18n } from "@/i18n/provider";
 
 type AnchorLinkProps = Omit<ComponentProps<typeof Link>, "href"> & { to: string };
 
+export function sectionOffset(id: string) {
+  if (!id || id === "top") return 0;
+  const el = document.getElementById(id);
+  if (!el) return null;
+  const padding = Number.parseFloat(getComputedStyle(el).paddingTop) || 0;
+  const header = window.innerWidth >= 640 ? 104 : 92;
+  const top = el.getBoundingClientRect().top + window.scrollY + padding - header;
+  return Math.max(0, Math.min(top, document.documentElement.scrollHeight - window.innerHeight));
+}
+
 export function useScrollToSection() {
   const lenis = useLenis();
   return (id: string) => {
-    const target = id === "top" ? 0 : `#${id}`;
-    if (lenis) lenis.scrollTo(target, { offset: -80, duration: 1.4 });
-    else if (id === "top") window.scrollTo({ top: 0, behavior: "smooth" });
-    else document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    lenis?.start();
+    const top = sectionOffset(id);
+    if (top === null) return;
+    if (lenis) lenis.scrollTo(top, { duration: 1.4 });
+    else window.scrollTo({ top, behavior: "smooth" });
   };
 }
 
@@ -30,7 +41,7 @@ export function AnchorLink({ to, onClick, ...props }: AnchorLinkProps) {
     if (pathname === home) {
       e.preventDefault();
       scrollTo(to);
-      history.replaceState(null, "", href);
+      history.replaceState(history.state, "", href);
     }
   }
 

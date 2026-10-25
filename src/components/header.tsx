@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { ArrowUpRight, Command, Menu, X } from "lucide-react";
 import { useLenis } from "lenis/react";
 import type { SectionId } from "@/content/navigation";
@@ -53,6 +53,7 @@ export function Header() {
   const [hovered, setHovered] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const lenis = useLenis();
+  const [intro] = useState(() => !introPlayed);
 
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 24));
 
@@ -86,12 +87,12 @@ export function Header() {
 
   return (
     <>
-      <motion.header
-        className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-4 sm:pt-4"
-        initial={introPlayed ? false : { y: -40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        onAnimationComplete={() => (introPlayed = true)}
+      <header
+        className={cn("fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-4 sm:pt-4", intro && "animate-enter")}
+        style={intro ? ({ "--enter-y": "-40px", animationDelay: "0.2s" } as CSSProperties) : undefined}
+        onAnimationEnd={(e) => {
+          if (e.target === e.currentTarget) introPlayed = true;
+        }}
       >
         <div
           className={cn(
@@ -99,9 +100,10 @@ export function Header() {
             scrolled || menuOpen ? "glass-strong glass-edge" : "bg-transparent",
           )}
         >
-          <AnchorLink to="top" onClick={() => setMenuOpen(false)} className="group flex shrink-0 items-center gap-2.5 rounded-full pr-2" aria-label={`${profile.brand} — ${t.nav.home}`}>
+          <AnchorLink to="top" onClick={() => setMenuOpen(false)} className="group flex shrink-0 items-center gap-2.5 rounded-full pr-2">
             <BrandMark className="transition-transform duration-500 ease-out-expo group-hover:rotate-[-8deg]" />
             <BrandWordmark className="text-[15px]" />
+            <span className="sr-only"> — {t.nav.home}</span>
           </AnchorLink>
 
           <nav className="hidden xl:block" onPointerLeave={() => setHovered(null)}>
@@ -164,7 +166,7 @@ export function Header() {
             </button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       <AnimatePresence>
         {menuOpen && (

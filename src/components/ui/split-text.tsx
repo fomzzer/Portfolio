@@ -14,15 +14,29 @@ type SplitTextProps = {
 
 export function SplitText({ text, className, wordClassName, delay = 0, stagger = 0.06, immediate = false }: SplitTextProps) {
   const words = text.split(" ");
-  const trigger = immediate
-    ? { animate: "show" }
-    : { whileInView: "show", viewport: { once: true, margin: "-60px" } };
+
+  if (immediate) {
+    return (
+      <span className={cn("inline", className)}>
+        <span className="sr-only">{text}</span>
+        {words.map((word, i) => (
+          <span key={`${word}-${i}`} className="inline-block overflow-hidden pb-[0.12em] align-bottom" aria-hidden>
+            <span className={cn("animate-enter-word inline-block", wordClassName)} style={{ animationDelay: `${delay + i * stagger}s` }}>
+              {word}
+            </span>
+            {i < words.length - 1 && " "}
+          </span>
+        ))}
+      </span>
+    );
+  }
 
   return (
     <motion.span
       className={cn("inline", className)}
       initial="hidden"
-      {...trigger}
+      whileInView="show"
+      viewport={{ once: true, margin: "-60px" }}
       transition={{ staggerChildren: stagger, delayChildren: delay }}
     >
       <span className="sr-only">{text}</span>

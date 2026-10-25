@@ -1,10 +1,11 @@
 import { marquee } from "@/content/stack";
+import { PauseOffscreen } from "../ui/pause-offscreen";
 
 export function Marquee() {
   const items = [...marquee, ...marquee];
 
   return (
-    <div className="relative border-y border-line py-6">
+    <PauseOffscreen className="relative border-y border-line py-6">
       <div className="mask-fade-x flex overflow-hidden">
         <div className="flex shrink-0 animate-marquee items-center gap-12 pr-12 hover:[animation-play-state:paused]">
           {items.map((item, i) => (
@@ -15,6 +16,6 @@ export function Marquee() {
           ))}
         </div>
       </div>
-    </div>
+    </PauseOffscreen>
   );
 }

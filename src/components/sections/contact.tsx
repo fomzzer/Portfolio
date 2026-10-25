@@ -111,6 +111,25 @@ export function Contact() {
               </button>
             </GlassCard>
 
+            <GlassCard className="p-6 sm:p-8">
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-subtle">{t.contact.phone}</p>
+              <ul className="mt-3 divide-y divide-line">
+                {profile.phones.map((ph) => (
+                  <li key={ph.href}>
+                    <a href={ph.href} aria-label={`${t.contact.call}: ${ph.number}`} className="group flex items-center justify-between gap-4 py-3.5 last:pb-0">
+                      <span className="flex min-w-0 items-center gap-3">
+                        <span className="shrink-0 rounded-full border border-line px-2.5 py-1 font-mono text-[10px] leading-none tracking-[0.15em] text-subtle transition-colors group-hover:border-line-strong group-hover:text-muted">
+                          {ph.country}
+                        </span>
+                        <span className="select-text truncate text-lg font-semibold tabular-nums tracking-[-0.02em] text-fg transition-opacity group-hover:opacity-80 md:text-xl">{ph.number}</span>
+                      </span>
+                      <ArrowUpRight className="size-4 shrink-0 text-subtle transition-all duration-500 ease-out-expo group-hover:rotate-45 group-hover:text-fg" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </GlassCard>
+
             <div className="grid grid-cols-2 gap-4 sm:gap-6">
               {profile.socials.map((s, i) => (
                 <a key={s.name} href={s.href} target="_blank" rel="noopener noreferrer" className={cn("group", i === profile.socials.length - 1 && profile.socials.length % 2 === 1 && "col-span-2")}>
