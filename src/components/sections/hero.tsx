@@ -27,10 +27,10 @@ export function Hero() {
     <section ref={ref} id="top" className="hero-timeline relative flex min-h-[100svh] flex-col overflow-hidden pt-24 sm:pt-28">
       <motion.div
         style={native ? undefined : { y: orbY, scale: orbScale }}
-        className="hero-orb pointer-events-none absolute right-[-26%] top-[25vw] w-[90vw] max-w-[720px] sm:right-[-18%] sm:top-[-7vw] sm:w-[78vw] lg:right-[-4%] lg:top-[10%] lg:w-[56vw]"
+        className="hero-orb pointer-events-none absolute right-[-18%] top-[-7vw] w-[78vw] max-w-[720px] max-sm:hidden lg:right-[-4%] lg:top-[10%] lg:w-[56vw]"
       >
         <PauseOffscreen>
-          <CodeOrb className="w-full opacity-60 sm:opacity-80 lg:opacity-100" />
+          <CodeOrb className="w-full opacity-80 lg:opacity-100" />
         </PauseOffscreen>
       </motion.div>
 
@@ -46,14 +46,19 @@ export function Hero() {
           <span className="truncate">{p.availability}</span>
         </div>
 
-        <h1 className="max-w-5xl text-[clamp(2.9rem,12.5vw,9.5rem)] font-semibold leading-[0.9] tracking-[-0.065em] sm:text-[clamp(3.2rem,11vw,9.5rem)]">
-          <span className="block text-fg">
-            <SplitText text={t.hero.titleTop} immediate delay={0.4} stagger={0.08} />
-          </span>
-          <span className="block">
-            <SplitText text={t.hero.titleBottom} immediate delay={0.55} wordClassName="text-gradient" />
-          </span>
-        </h1>
+        <div className="relative">
+          <PauseOffscreen className="pointer-events-none absolute -z-10 right-[-24vw] top-[0.5em] w-[84vw] -translate-y-1/2 text-[clamp(2.9rem,12.5vw,9.5rem)] sm:hidden">
+            <CodeOrb className="w-full opacity-60" />
+          </PauseOffscreen>
+          <h1 className="relative max-w-5xl text-[clamp(2.9rem,12.5vw,9.5rem)] font-semibold leading-[0.9] tracking-[-0.065em] sm:text-[clamp(3.2rem,11vw,9.5rem)]">
+            <span className="block text-fg">
+              <SplitText text={t.hero.titleTop} immediate delay={0.4} stagger={0.08} />
+            </span>
+            <span className="block">
+              <SplitText text={t.hero.titleBottom} immediate delay={0.55} wordClassName="text-gradient" />
+            </span>
+          </h1>
+        </div>
 
         <div className="mt-8 grid gap-8 sm:mt-10 lg:mt-14 lg:grid-cols-12 lg:items-end">
           <p className="animate-enter max-w-md text-base leading-relaxed text-muted sm:text-lg lg:col-span-5 lg:text-xl" style={{ animationDelay: "0.9s" }}>

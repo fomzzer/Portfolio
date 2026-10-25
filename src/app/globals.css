@@ -195,22 +195,6 @@ body {
   }
 }
 
-@supports selector(::details-content) {
-  .faq-item {
-    interpolate-size: allow-keywords;
-  }
-
-  .faq-item::details-content {
-    block-size: 0;
-    overflow: clip;
-    transition: block-size 0.5s var(--ease-out-expo), content-visibility 0.5s allow-discrete;
-  }
-
-  .faq-item[open]::details-content {
-    block-size: auto;
-  }
-}
-
 [data-paused],
 [data-paused] * {
   animation-play-state: paused !important;
