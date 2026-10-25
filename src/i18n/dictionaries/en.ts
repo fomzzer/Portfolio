@@ -127,8 +127,8 @@ export const en = {
     description: "From a business website to a full platform — I take ownership from the first call to a fast, stable production.",
     items: [
       { title: "Websites & Landing Pages", description: "Landing pages and business websites — fast, SEO-ready, presenting your brand and turning visitors into clients." },
-      { title: "Web Applications", description: "Custom platforms with accounts, dashboards, admin panels and APIs built on Next.js." },
       { title: "E-commerce", description: "Online stores with catalog, cart, payments, delivery integrations and analytics." },
+      { title: "Web Applications", description: "Custom platforms with accounts, dashboards, admin panels and APIs built on Next.js." },
       { title: "Performance & SEO", description: "Audits and optimization for Core Web Vitals, accessibility and search visibility." },
     ],
     process: [
