@@ -47,7 +47,7 @@ export function Hero() {
         </div>
 
         <div className="relative">
-          <PauseOffscreen className="pointer-events-none absolute -z-10 right-[-24vw] top-[0.5em] w-[84vw] -translate-y-1/2 text-[clamp(2.9rem,12.5vw,9.5rem)] sm:hidden">
+          <PauseOffscreen className="pointer-events-none absolute -z-10 right-[-24vw] top-[0.4em] w-[84vw] -translate-y-1/2 text-[clamp(2.9rem,12.5vw,9.5rem)] sm:hidden">
             <CodeOrb className="w-full opacity-60" />
           </PauseOffscreen>
           <h1 className="relative max-w-5xl text-[clamp(2.9rem,12.5vw,9.5rem)] font-semibold leading-[0.9] tracking-[-0.065em] sm:text-[clamp(3.2rem,11vw,9.5rem)]">
