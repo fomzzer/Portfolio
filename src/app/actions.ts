@@ -41,6 +41,7 @@ function escape(value: string) {
 }
 
 const budgetLabels: Record<Budget, string> = {
+  "50to100": "€50 – 100",
   "100to200": "€100 – 200",
   "200to300": "€200 – 300",
   "300to500": "€300 – 500",
