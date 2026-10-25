@@ -31,7 +31,7 @@ export function Faq({ content }: { content: Content }) {
                   <span className="shrink-0 font-mono text-xs text-subtle">{String(i + 1).padStart(2, "0")}</span>
                   <h3 className="text-base font-semibold tracking-[-0.02em] text-fg sm:text-lg md:text-xl">{item.q}</h3>
                 </span>
-                <span className="grid size-9 shrink-0 place-items-center rounded-full border border-line-strong text-muted transition-[transform,background-color,color] duration-500 ease-out-expo group-open:rotate-45 group-open:bg-fg group-open:text-ink">
+                <span className="grid size-9 shrink-0 place-items-center rounded-full border border-line-strong text-muted transition-[rotate,background-color,color] duration-500 ease-out-expo group-open:rotate-45 group-open:bg-fg group-open:text-ink">
                   <Plus className="size-4" />
                 </span>
               </summary>

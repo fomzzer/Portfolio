@@ -21,6 +21,7 @@ export const bg: Dictionary = {
     stack: "Стек",
     experience: "Опит",
     services: "Услуги",
+    faq: "Въпроси",
     contact: "Контакт",
     home: "Начало",
     letsTalk: "Да поговорим",

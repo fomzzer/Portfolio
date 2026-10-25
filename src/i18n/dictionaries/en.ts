@@ -19,6 +19,7 @@ export const en = {
     stack: "Stack",
     experience: "Experience",
     services: "Services",
+    faq: "FAQ",
     contact: "Contact",
     home: "Home",
     letsTalk: "Let's talk",

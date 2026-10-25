@@ -21,6 +21,7 @@ export const ru: Dictionary = {
     stack: "Стек",
     experience: "Опыт",
     services: "Услуги",
+    faq: "Вопросы",
     contact: "Контакты",
     home: "Главная",
     letsTalk: "Обсудить",

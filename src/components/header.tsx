@@ -40,7 +40,7 @@ function useActiveSection(ids: readonly SectionId[], enabled: boolean) {
 
 let introPlayed = false;
 
-const mobileLink = "flex items-baseline gap-4 py-1.5 text-[clamp(2.1rem,9.5vw,4rem)] font-semibold leading-tight tracking-[-0.04em] transition-colors";
+const mobileLink = "flex items-baseline gap-4 py-1.5 text-[clamp(2.1rem,9.5vw,4rem)] font-semibold leading-tight tracking-[-0.04em] transition-colors [@media(max-height:740px)]:py-0.5 [@media(max-height:740px)]:text-[1.85rem]";
 
 export function Header() {
   const { locale, t, sections } = useI18n();
@@ -171,13 +171,13 @@ export function Header() {
           <motion.div
             id="mobile-menu"
             data-lenis-prevent
-            className="fixed inset-0 z-40 flex flex-col overflow-y-auto overscroll-contain bg-ink/85 px-6 pb-8 pt-24 backdrop-blur-2xl will-change-[opacity] sm:px-10 xl:hidden"
+            className="fixed inset-0 z-40 flex flex-col overflow-y-auto overscroll-contain bg-ink/85 px-6 pb-8 pt-24 backdrop-blur-2xl will-change-[opacity] sm:px-10 xl:hidden [@media(max-height:740px)]:pb-5 [@media(max-height:740px)]:pt-20"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <ul className="flex flex-1 flex-col justify-center gap-1 py-6">
+            <ul className="flex flex-1 flex-col justify-center gap-1 py-6 [@media(max-height:740px)]:gap-0 [@media(max-height:740px)]:py-2">
               {sections.map((s, i) => (
                 <li key={s.id} className="animate-enter" style={{ "--enter-y": "30px", "--enter-duration": "0.6s", animationDelay: `${0.05 * i}s` } as CSSProperties}>
                   <AnchorLink to={s.id} instant onClick={() => setMenuOpen(false)} className={cn(mobileLink, current === s.id ? "text-fg" : "text-fg/60 hover:text-fg")}>
@@ -187,7 +187,7 @@ export function Header() {
                 </li>
               ))}
               <li
-                className="animate-enter mt-4 border-t border-line pt-4"
+                className="animate-enter mt-4 border-t border-line pt-4 [@media(max-height:740px)]:mt-2 [@media(max-height:740px)]:pt-2"
                 style={{ "--enter-y": "30px", "--enter-duration": "0.6s", animationDelay: `${0.05 * sections.length}s` } as CSSProperties}
               >
                 <Link href={casesHref} onClick={() => setMenuOpen(false)} className={cn(mobileLink, "items-center", casesActive ? "text-fg" : "text-fg/60 hover:text-fg")}>
@@ -197,7 +197,7 @@ export function Header() {
               </li>
             </ul>
             <div
-              className="animate-enter flex flex-col gap-6 border-t border-line pt-6"
+              className="animate-enter flex flex-col gap-6 border-t border-line pt-6 [@media(max-height:740px)]:gap-4 [@media(max-height:740px)]:pt-4"
               style={{ "--enter-y": "10px", "--enter-duration": "0.5s", animationDelay: "0.3s" } as CSSProperties}
             >
               <LanguageSwitcher size="lg" className="w-fit" />
