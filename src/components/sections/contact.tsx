@@ -105,9 +105,25 @@ export function Contact() {
               <a href={`mailto:${profile.email}`} className="selectable mt-3 block select-text break-all text-2xl font-semibold tracking-[-0.03em] text-fg transition-opacity hover:opacity-80 md:text-3xl">
                 {profile.email}
               </a>
-              <button onClick={copy} className="mt-6 inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-xs text-muted transition-colors hover:border-line-strong hover:text-fg">
-                {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
-                {copied ? t.contact.copied : t.contact.copy}
+              <button
+                onClick={copy}
+                className={cn(
+                  "mt-6 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs transition-[scale,border-color,color,background-color] duration-300 ease-out-expo active:scale-[0.94]",
+                  copied ? "border-emerald-300/30 bg-emerald-300/[0.06] text-fg" : "border-line text-muted hover:border-line-strong hover:text-fg",
+                )}
+              >
+                <span className="relative grid size-3.5 place-items-center">
+                  <Copy className={cn("absolute size-3.5 transition-[opacity,scale,rotate] duration-500 ease-out-expo", copied ? "rotate-[-45deg] scale-50 opacity-0" : "opacity-100")} />
+                  <Check className={cn("absolute size-3.5 text-emerald-300 transition-[opacity,scale,rotate] duration-500 ease-out-expo", copied ? "opacity-100" : "rotate-45 scale-50 opacity-0")} />
+                </span>
+                <span className="grid overflow-hidden" aria-live="polite">
+                  <span className={cn("col-start-1 row-start-1 transition-[opacity,translate] duration-500 ease-out-expo", copied && "-translate-y-full opacity-0")} aria-hidden={copied}>
+                    {t.contact.copy}
+                  </span>
+                  <span className={cn("col-start-1 row-start-1 transition-[opacity,translate] duration-500 ease-out-expo", !copied && "translate-y-full opacity-0")} aria-hidden={!copied}>
+                    {t.contact.copied}
+                  </span>
+                </span>
               </button>
             </GlassCard>
 

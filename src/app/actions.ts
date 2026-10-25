@@ -41,10 +41,10 @@ function escape(value: string) {
 }
 
 const budgetLabels: Record<Budget, string> = {
-  lt300: "до €300",
-  "300to800": "€300 – 800",
-  "800to2k": "€800 – 2 000",
-  gt2k: "от €2 000",
+  "100to200": "€100 – 200",
+  "200to300": "€200 – 300",
+  "300to500": "€300 – 500",
+  gt500: "от €500",
   unsure: "Не определён",
 };
 
