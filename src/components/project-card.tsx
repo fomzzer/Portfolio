@@ -11,9 +11,10 @@ type ProjectCardProps = {
   index: number;
   priority?: boolean;
   reverse?: boolean;
+  heading?: "h2" | "h3";
 };
 
-export function ProjectCard({ project, content, index, priority, reverse }: ProjectCardProps) {
+export function ProjectCard({ project, content, index, priority, reverse, heading: Heading = "h3" }: ProjectCardProps) {
   const { t, locale } = content;
 
   return (
@@ -31,7 +32,7 @@ export function ProjectCard({ project, content, index, priority, reverse }: Proj
                 {t.work.status[project.status]}
               </span>
             </div>
-            <h3 className="text-3xl font-semibold tracking-[-0.04em] text-fg md:text-4xl">{project.title}</h3>
+            <Heading className="text-3xl font-semibold tracking-[-0.04em] text-fg md:text-4xl">{project.title}</Heading>
             <p className="mt-3 text-base leading-relaxed text-muted">{project.tagline}</p>
             <p className="mt-5 text-sm leading-relaxed text-subtle">{project.summary}</p>
           </div>

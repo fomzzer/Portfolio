@@ -15,8 +15,8 @@ function detectLocale(request: NextRequest): Locale {
     .sort((a, b) => b.q - a.q);
 
   for (const { lang } of preferred) {
-    if (lang === "uk" || lang === "ru") return "uk";
     if (isLocale(lang)) return lang;
+    if (lang === "be" || lang === "kk") return "ru";
   }
   return defaultLocale;
 }

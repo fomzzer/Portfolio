@@ -3,7 +3,7 @@ export const en = {
     firstName: "Kostiantyn",
     lastName: "Naumenko",
     role: "Full-Stack Web Developer",
-    headline: "I build professional, reliable and high-performance websites — from the database to the last pixel.",
+    headline: "I build professional, reliable and high-performance websites end to end — from the database to the last pixel.",
     location: "Sofia, Bulgaria",
     availability: "Open to remote projects",
     bio: [
@@ -164,6 +164,25 @@ export const en = {
       config: "The form isn't configured yet. Please email me directly.",
       generic: "Something went wrong. Please try again or email me directly.",
     },
+  },
+  seo: {
+    title: "Website Development — Full-Stack Web Developer in Sofia | fomzzer.dev",
+    description: "Custom websites, online stores and web apps built end to end: design, development, SEO and launch. Fast, reliable Next.js sites for clients in Bulgaria, Europe and worldwide.",
+    keywords: ["website development", "web developer", "custom website", "build a website", "website for business", "online store development", "web application development", "Next.js developer", "freelance web developer", "web developer Sofia", "website development Bulgaria", "fomzzer"],
+    casesTitle: "Case studies — websites I've built",
+  },
+  faq: {
+    eyebrow: "FAQ",
+    title: "Questions clients ask before we start.",
+    description: "Short answers about cost, timelines and how website development works with me.",
+    items: [
+      { q: "How much does a website cost?", a: "It depends on the scope. As a guide: a landing page starts from €300, a business website is usually €300–800, and an online store or web application starts from €800. After a short call you get a fixed price and a clear scope — no hidden extras." },
+      { q: "How long does website development take?", a: "A landing page takes about 1–2 weeks, a business website 2–4 weeks, and an online store or custom web app 4–8 weeks. You get preview links throughout, so you see progress at every stage." },
+      { q: "What is included in a turnkey website?", a: "Everything from start to finish: structure and design, development, mobile adaptation, contact forms, analytics, technical SEO, hosting and domain setup, and launch. After launch I stay available for support and improvements." },
+      { q: "Will my website be fast and SEO-optimized?", a: "Yes. Every site is built on Next.js with server rendering, optimized images and clean semantic markup. I target Lighthouse scores of 90–100 and set up metadata, sitemaps and structured data so search engines understand and rank your site." },
+      { q: "Do you work with clients from other cities and countries?", a: "Yes. I'm based in Sofia and work remotely with clients across Bulgaria, Ukraine, Europe and worldwide. Calls, messengers and email — everything is done online." },
+      { q: "Can I update the content myself after launch?", a: "Of course. I can build a convenient admin panel or connect a CMS so you can edit texts, products and images without a developer. Ongoing support and new features are available whenever you need them." },
+    ],
   },
   footer: {
     tagline: "Professional, reliable and high-performance websites.",

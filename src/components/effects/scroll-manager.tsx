@@ -1,21 +1,15 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useLenis } from "lenis/react";
 import { useEffect, useLayoutEffect, useRef } from "react";
 import { sectionOffset } from "../anchor-link";
 import { isLocaleSwitching } from "../page-fade";
+import { getLenis, lockScroll } from "./smooth-scroll";
 
 export function ScrollManager() {
   const pathname = usePathname();
-  const lenis = useLenis();
-  const lenisRef = useRef(lenis);
   const first = useRef(true);
   const popped = useRef(false);
-
-  useEffect(() => {
-    lenisRef.current = lenis;
-  }, [lenis]);
 
   useEffect(() => {
     const onPop = () => (popped.current = true);
@@ -32,14 +26,14 @@ export function ScrollManager() {
     if (back || isLocaleSwitching() || (initial && !id)) return;
 
     function jump() {
-      const instance = lenisRef.current;
-      instance?.start();
+      lockScroll(false);
       const top = sectionOffset(id) ?? 0;
-      if (instance) {
-        instance.resize();
-        instance.scrollTo(top, { immediate: true, force: true });
+      const lenis = getLenis();
+      if (lenis) {
+        lenis.resize();
+        lenis.scrollTo(top, { immediate: true, force: true });
       }
-      window.scrollTo(0, top);
+      window.scrollTo({ top, behavior: "instant" });
     }
 
     jump();

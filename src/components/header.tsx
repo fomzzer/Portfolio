@@ -5,13 +5,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type CSSProperties } from "react";
 import { ArrowUpRight, Command, Menu, X } from "lucide-react";
-import { useLenis } from "lenis/react";
 import type { SectionId } from "@/content/navigation";
 import { profile } from "@/content/profile";
 import { useI18n } from "@/i18n/provider";
 import { cn } from "@/lib/utils";
 import { AnchorLink } from "./anchor-link";
 import { useCommandMenu } from "./command-menu";
+import { lockScroll } from "./effects/smooth-scroll";
 import { LanguageSwitcher } from "./language-switcher";
 import { BrandIcon } from "./ui/brand-icon";
 import { BrandMark, BrandWordmark } from "./brand";
@@ -52,15 +52,13 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [hovered, setHovered] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const lenis = useLenis();
   const [intro] = useState(() => !introPlayed);
 
   useMotionValueEvent(scrollY, "change", (v) => setScrolled(v > 24));
 
   useEffect(() => {
-    if (menuOpen) lenis?.stop();
-    else lenis?.start();
-  }, [menuOpen, lenis]);
+    lockScroll(menuOpen);
+  }, [menuOpen]);
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 1280px)");
@@ -173,7 +171,7 @@ export function Header() {
           <motion.div
             id="mobile-menu"
             data-lenis-prevent
-            className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-ink/85 px-6 pb-8 pt-24 backdrop-blur-2xl sm:px-10 xl:hidden"
+            className="fixed inset-0 z-40 flex flex-col overflow-y-auto overscroll-contain bg-ink/85 px-6 pb-8 pt-24 backdrop-blur-2xl will-change-[opacity] sm:px-10 xl:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -181,36 +179,26 @@ export function Header() {
           >
             <ul className="flex flex-1 flex-col justify-center gap-1 py-6">
               {sections.map((s, i) => (
-                <motion.li
-                  key={s.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.6, delay: 0.05 * i, ease: [0.16, 1, 0.3, 1] }}
-                >
-                  <AnchorLink to={s.id} onClick={() => setMenuOpen(false)} className={cn(mobileLink, current === s.id ? "text-fg" : "text-fg/60 hover:text-fg")}>
+                <li key={s.id} className="animate-enter" style={{ "--enter-y": "30px", "--enter-duration": "0.6s", animationDelay: `${0.05 * i}s` } as CSSProperties}>
+                  <AnchorLink to={s.id} instant onClick={() => setMenuOpen(false)} className={cn(mobileLink, current === s.id ? "text-fg" : "text-fg/60 hover:text-fg")}>
                     <span className="font-mono text-xs text-subtle">0{i + 1}</span>
                     {s.label}
                   </AnchorLink>
-                </motion.li>
+                </li>
               ))}
-              <motion.li
-                className="mt-4 border-t border-line pt-4"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.6, delay: 0.05 * sections.length, ease: [0.16, 1, 0.3, 1] }}
+              <li
+                className="animate-enter mt-4 border-t border-line pt-4"
+                style={{ "--enter-y": "30px", "--enter-duration": "0.6s", animationDelay: `${0.05 * sections.length}s` } as CSSProperties}
               >
                 <Link href={casesHref} onClick={() => setMenuOpen(false)} className={cn(mobileLink, "items-center", casesActive ? "text-fg" : "text-fg/60 hover:text-fg")}>
                   {t.nav.cases}
                   <ArrowUpRight className="size-7 opacity-60 sm:size-9" />
                 </Link>
-              </motion.li>
+              </li>
             </ul>
-            <motion.div
-              className="flex flex-col gap-6 border-t border-line pt-6"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0, transition: { delay: 0.3 } }}
+            <div
+              className="animate-enter flex flex-col gap-6 border-t border-line pt-6"
+              style={{ "--enter-y": "10px", "--enter-duration": "0.5s", animationDelay: "0.3s" } as CSSProperties}
             >
               <LanguageSwitcher size="lg" className="w-fit" />
               <div className="flex flex-wrap items-center justify-between gap-4">
@@ -225,7 +213,7 @@ export function Header() {
                   ))}
                 </div>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -5,12 +5,12 @@ import { AnimatePresence, motion } from "motion/react";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowUpRight, Check, Copy, FileText, FolderGit2, Hash, Languages, LayoutGrid, Mail, Search } from "lucide-react";
-import { useLenis } from "lenis/react";
 import { profile } from "@/content/profile";
 import { localeMeta, locales } from "@/i18n/config";
 import { useI18n } from "@/i18n/provider";
 import { BrandIcon } from "./ui/brand-icon";
-import { useScrollToSection } from "./anchor-link";
+import { scrollToSection } from "./anchor-link";
+import { lockScroll } from "./effects/smooth-scroll";
 import { useCommandMenu } from "./command-menu";
 import { useSwitchLocale } from "./language-switcher";
 
@@ -25,15 +25,12 @@ export default function CommandMenu() {
   const { locale, t, sections, projects } = useI18n();
   const router = useRouter();
   const pathname = usePathname();
-  const lenis = useLenis();
-  const scrollTo = useScrollToSection();
   const switchLocale = useSwitchLocale();
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    if (open) lenis?.stop();
-    else lenis?.start();
-  }, [open, lenis]);
+    lockScroll(open);
+  }, [open]);
 
   function run(fn: () => void) {
     setOpen(false);
@@ -42,7 +39,7 @@ export default function CommandMenu() {
 
   function goSection(id: string) {
     run(() => {
-      if (pathname === `/${locale}`) scrollTo(id);
+      if (pathname === `/${locale}`) scrollToSection(id);
       else router.push(`/${locale}#${id}`, { scroll: false });
     });
   }

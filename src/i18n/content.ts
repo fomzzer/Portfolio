@@ -8,8 +8,9 @@ import type { Locale } from "./config";
 import { en, type Dictionary } from "./dictionaries/en";
 import { bg } from "./dictionaries/bg";
 import { uk } from "./dictionaries/uk";
+import { ru } from "./dictionaries/ru";
 
-const dictionaries: Record<Locale, Dictionary> = { en, bg, uk };
+const dictionaries: Record<Locale, Dictionary> = { en, bg, uk, ru };
 
 function formatPeriod(from: string, to: string | null, now: string) {
   return to === from ? from : `${from} — ${to ?? now}`;

@@ -2,29 +2,33 @@
 
 import Link from "next/link";
 import { motion, useScroll, useSpring } from "motion/react";
-import { useRef } from "react";
+import { useRef, type RefObject } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { useI18n } from "@/i18n/provider";
 import { SectionHeading } from "../ui/section-heading";
 import { Reveal } from "../ui/reveal";
+import { useScrollTimeline } from "../effects/use-scroll-timeline";
+
+const fillClass = "timeline-fill absolute bottom-0 left-0 top-0 w-px origin-top bg-gradient-to-b from-white via-white/60 to-transparent lg:left-[calc(25%-0.5px)]";
+
+function MotionFill({ target }: { target: RefObject<HTMLDivElement | null> }) {
+  const { scrollYProgress } = useScroll({ target, offset: ["start 0.7", "end 0.6"] });
+  const scaleY = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  return <motion.div aria-hidden style={{ scaleY }} className={fillClass} />;
+}
 
 export function Experience() {
   const { t, locale, experience } = useI18n();
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.7", "end 0.6"] });
-  const scaleY = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  const native = useScrollTimeline();
 
   return (
     <section id="experience" className="container-page scroll-mt-24 py-24 md:py-32 lg:py-40">
       <SectionHeading index="04" eyebrow={t.experience.eyebrow} title={t.experience.title} description={t.experience.description} />
 
-      <div ref={ref} className="relative ml-1 lg:ml-0">
+      <div ref={ref} className="timeline-track relative ml-1 lg:ml-0">
         <div aria-hidden className="absolute bottom-0 left-0 top-0 w-px bg-line lg:left-[calc(25%-0.5px)]" />
-        <motion.div
-          aria-hidden
-          style={{ scaleY }}
-          className="absolute bottom-0 left-0 top-0 w-px origin-top bg-gradient-to-b from-white via-white/60 to-transparent lg:left-[calc(25%-0.5px)]"
-        />
+        {native ? <div aria-hidden className={fillClass} /> : <MotionFill target={ref} />}
         <ol className="relative">
           {experience.map((item, i) => (
             <li key={i} className="relative grid gap-3 pb-14 pl-7 last:pb-0 md:pb-16 md:pl-10 lg:grid-cols-4 lg:gap-12 lg:pl-0">

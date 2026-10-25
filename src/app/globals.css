@@ -19,7 +19,6 @@
   --animate-aurora: aurora 22s ease-in-out infinite alternate;
   --animate-marquee: marquee 40s linear infinite;
   --animate-shine: shine 6s ease-in-out infinite;
-  --animate-pulse-dot: pulse-dot 2.2s ease-out infinite;
   --animate-spin-slow: spin 28s linear infinite;
 
   @keyframes aurora {
@@ -54,10 +53,42 @@
     from { opacity: 0.01; transform: scale(0.9); }
   }
 
-  @keyframes pulse-dot {
-    0% { box-shadow: 0 0 0 0 rgb(134 239 172 / 0.6); }
-    100% { box-shadow: 0 0 0 6px rgb(134 239 172 / 0); }
-  }
+}
+
+@keyframes pulse-ring {
+  from { transform: scale(1); opacity: 1; }
+  to { transform: scale(var(--pulse-scale, 3)); opacity: 0; }
+}
+
+@keyframes scroll-cue {
+  0%, 100% { transform: translate3d(0, 0, 0); opacity: 1; }
+  50% { transform: translate3d(0, 14px, 0); opacity: 0.2; }
+}
+
+@keyframes hero-content {
+  0% { opacity: 1; transform: translate3d(0, 0, 0); }
+  80% { opacity: 0; transform: translate3d(0, 128px, 0); }
+  100% { opacity: 0; transform: translate3d(0, 160px, 0); }
+}
+
+@keyframes hero-orb {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(0, -120px, 0) scale(0.8); }
+}
+
+@keyframes grow-x {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+@keyframes grow-y {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@keyframes light-up {
+  from { opacity: 0.14; }
+  to { opacity: 1; }
 }
 
 :root {
@@ -106,6 +137,77 @@ body {
 
   img {
     -webkit-user-drag: none;
+  }
+}
+
+[data-reveal] {
+  animation: enter 0.8s var(--ease-out-expo) both paused;
+}
+
+[data-reveal-word] {
+  animation: enter-word 1s var(--ease-out-expo) both paused;
+}
+
+[data-reveal][data-in],
+[data-reveal-group][data-in] [data-reveal-word] {
+  animation-play-state: running;
+}
+
+@supports (animation-timeline: view()) {
+  .hero-timeline {
+    view-timeline: --hero block;
+  }
+
+  .hero-content,
+  .hero-orb {
+    animation: hero-content linear both;
+    animation-timeline: --hero;
+    animation-range: exit-crossing 0% exit-crossing 100%;
+  }
+
+  .hero-orb {
+    animation-name: hero-orb;
+  }
+
+  .scroll-progress {
+    animation: grow-x linear both;
+    animation-timeline: scroll(root block);
+  }
+
+  .timeline-track {
+    view-timeline: --track block;
+  }
+
+  .timeline-fill {
+    animation: grow-y linear both;
+    animation-timeline: --track;
+    animation-range: cover 30vh cover calc(100% - 60vh);
+  }
+
+  .scroll-text {
+    view-timeline: --scroll-text block;
+  }
+
+  .scroll-word {
+    animation: light-up linear both;
+    animation-timeline: --scroll-text;
+    animation-range: cover calc(15vh + (85vh - 220px) * var(--i) / var(--n)) cover calc(15vh + (85vh - 220px) * (var(--i) + 1) / var(--n));
+  }
+}
+
+@supports selector(::details-content) {
+  .faq-item {
+    interpolate-size: allow-keywords;
+  }
+
+  .faq-item::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition: block-size 0.5s var(--ease-out-expo), content-visibility 0.5s allow-discrete;
+  }
+
+  .faq-item[open]::details-content {
+    block-size: auto;
   }
 }
 
@@ -216,6 +318,32 @@ html[data-switching] footer {
 
 @utility animate-enter-scale {
   animation: enter-scale 1.6s var(--ease-out-expo) both;
+}
+
+@utility animate-pulse-dot {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: rgb(134 239 172 / 0.6);
+    animation: pulse-ring 2.2s ease-out infinite;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+  }
+}
+
+@utility animate-scroll-cue {
+  animation: scroll-cue 2s ease-in-out infinite;
 }
 
 @utility text-gradient {

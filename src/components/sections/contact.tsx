@@ -95,7 +95,7 @@ export function Contact() {
 
   return (
     <section id="contact" className="container-page scroll-mt-24 py-24 md:py-32 lg:py-40">
-      <SectionHeading index="06" eyebrow={t.contact.eyebrow} title={t.contact.title} description={t.contact.description} />
+      <SectionHeading index="07" eyebrow={t.contact.eyebrow} title={t.contact.title} description={t.contact.description} />
 
       <div className="grid gap-4 sm:gap-6 lg:grid-cols-12">
         <Reveal className="lg:col-span-5">
@@ -116,13 +116,14 @@ export function Contact() {
               <ul className="mt-3 divide-y divide-line">
                 {profile.phones.map((ph) => (
                   <li key={ph.href}>
-                    <a href={ph.href} aria-label={`${t.contact.call}: ${ph.number}`} className="group flex items-center justify-between gap-4 py-3.5 last:pb-0">
+                    <a href={ph.href} className="group flex items-center justify-between gap-4 py-3.5 last:pb-0">
                       <span className="flex min-w-0 items-center gap-3">
                         <span className="shrink-0 rounded-full border border-line px-2.5 py-1 font-mono text-[10px] leading-none tracking-[0.15em] text-subtle transition-colors group-hover:border-line-strong group-hover:text-muted">
                           {ph.country}
                         </span>
                         <span className="select-text truncate text-lg font-semibold tabular-nums tracking-[-0.02em] text-fg transition-opacity group-hover:opacity-80 md:text-xl">{ph.number}</span>
                       </span>
+                      <span className="sr-only"> — {t.contact.call}</span>
                       <ArrowUpRight className="size-4 shrink-0 text-subtle transition-all duration-500 ease-out-expo group-hover:rotate-45 group-hover:text-fg" />
                     </a>
                   </li>
@@ -145,7 +146,7 @@ export function Contact() {
             </div>
 
             <GlassCard className="flex flex-1 items-center gap-4 p-5 sm:p-6">
-              <span className="size-2 shrink-0 rounded-full bg-emerald-300 animate-pulse-dot" />
+              <span className="size-2 shrink-0 rounded-full bg-emerald-300 animate-pulse-dot [--pulse-scale:2.5]" />
               <p className="text-sm text-muted">
                 <span className="text-fg">{p.availability}.</span> {fill(t.contact.worldwide, { location: p.location })}
               </p>

@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
-import { isLocale, localeMeta, locales } from "@/i18n/config";
+import { isLocale, localeMeta } from "@/i18n/config";
+import { breadcrumbs, localeAlternates, personId } from "@/lib/seo";
+import { siteUrl } from "@/lib/utils";
 import { getContent } from "@/i18n/content";
 import { ProjectCard } from "@/components/project-card";
 import { Enter } from "@/components/ui/enter";
@@ -17,12 +19,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!isLocale(locale)) return {};
   const { t } = getContent(locale);
   return {
-    title: t.cases.eyebrow,
-    description: t.cases.description,
-    alternates: {
-      canonical: `/${locale}/projects`,
-      languages: { ...Object.fromEntries(locales.map((l) => [localeMeta[l].htmlLang, `/${l}/projects`])), "x-default": "/en/projects" },
-    },
+    title: t.seo.casesTitle,
+    description: `${t.cases.description} ${t.cases.ctaText}`,
+    alternates: localeAlternates(locale, "/projects"),
+    openGraph: { type: "website", siteName: "fomzzer.dev", title: t.seo.casesTitle, description: t.cases.description, url: `${siteUrl}/${locale}/projects`, locale: localeMeta[locale].ogLocale },
   };
 }
 
@@ -32,9 +32,29 @@ export default async function CasesPage({ params }: Props) {
   const content = getContent(locale);
   const { t } = content;
   const projects = [...content.projects].sort((a, b) => Number(b.year) - Number(a.year));
+  const jsonLd = [
+    breadcrumbs([
+      { name: t.nav.home, path: `/${locale}` },
+      { name: t.nav.cases, path: `/${locale}/projects` },
+    ]),
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: t.seo.casesTitle,
+      description: t.cases.description,
+      url: `${siteUrl}/${locale}/projects`,
+      inLanguage: localeMeta[locale].htmlLang,
+      author: { "@id": personId },
+      mainEntity: {
+        "@type": "ItemList",
+        itemListElement: projects.map((p, i) => ({ "@type": "ListItem", position: i + 1, url: `${siteUrl}/${locale}/projects/${p.slug}`, name: p.title })),
+      },
+    },
+  ];
 
   return (
     <section className="container-page pt-32 md:pt-40">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="mb-14 grid gap-6 md:mb-20 lg:grid-cols-12 lg:items-end">
         <div className="lg:col-span-8">
           <Enter>
@@ -56,7 +76,7 @@ export default async function CasesPage({ params }: Props) {
       <div className="flex flex-col gap-6 md:gap-8">
         {projects.map((project, i) => (
           <Reveal key={project.slug} delay={0.05}>
-            <ProjectCard project={project} content={content} index={i} priority={i === 0} reverse={i % 2 === 1} />
+            <ProjectCard project={project} content={content} index={i} priority={i === 0} reverse={i % 2 === 1} heading="h2" />
           </Reveal>
         ))}
 

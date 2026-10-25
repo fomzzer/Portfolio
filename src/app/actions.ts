@@ -48,7 +48,7 @@ const budgetLabels: Record<Budget, string> = {
   unsure: "Не определён",
 };
 
-const languageLabels: Record<Locale, string> = { en: "Английский", bg: "Болгарский", uk: "Украинский" };
+const languageLabels: Record<Locale, string> = { en: "Английский", bg: "Болгарский", uk: "Украинский", ru: "Русский" };
 
 type Inquiry = { name: string; email: string; budget: string; language: string; message: string; date: string };
 

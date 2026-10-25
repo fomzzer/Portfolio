@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 import { projectData } from "@/content/projects";
-import { isLocale, localeMeta, locales } from "@/i18n/config";
+import { isLocale, localeMeta } from "@/i18n/config";
+import { breadcrumbs, localeAlternates, personId } from "@/lib/seo";
+import { siteUrl } from "@/lib/utils";
 import { getContent, getNextProject, getProject } from "@/i18n/content";
 import { ProjectCover } from "@/components/project-cover";
 import { ProjectGallery } from "@/components/project-gallery";
@@ -27,14 +29,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!isLocale(locale)) return {};
   const project = getProject(getContent(locale), slug);
   if (!project) return {};
+  const title = `${project.title} — ${project.tagline}`;
   return {
-    title: project.title,
-    description: project.tagline,
-    alternates: {
-      canonical: `/${locale}/projects/${slug}`,
-      languages: { ...Object.fromEntries(locales.map((l) => [localeMeta[l].htmlLang, `/${l}/projects/${slug}`])), "x-default": `/en/projects/${slug}` },
+    title,
+    description: project.summary,
+    alternates: localeAlternates(locale, `/projects/${slug}`),
+    openGraph: {
+      title,
+      description: project.summary,
+      type: "article",
+      url: `${siteUrl}/${locale}/projects/${slug}`,
+      siteName: "fomzzer.dev",
+      locale: localeMeta[locale].ogLocale,
     },
-    openGraph: { title: project.title, description: project.summary, type: "article", locale: localeMeta[locale].ogLocale },
   };
 }
 
@@ -47,6 +54,29 @@ export default async function ProjectPage({ params }: Props) {
   const next = getNextProject(content, slug);
   const { t } = content;
 
+  const jsonLd = [
+    breadcrumbs([
+      { name: t.nav.home, path: `/${locale}` },
+      { name: t.nav.cases, path: `/${locale}/projects` },
+      { name: project.title, path: `/${locale}/projects/${project.slug}` },
+    ]),
+    {
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      name: project.title,
+      headline: project.tagline,
+      description: project.summary,
+      url: `${siteUrl}/${locale}/projects/${project.slug}`,
+      inLanguage: localeMeta[locale].htmlLang,
+      dateCreated: project.year,
+      author: { "@id": personId },
+      creator: { "@id": personId },
+      keywords: project.stack.join(", "),
+      ...(project.cover && { image: `${siteUrl}${project.cover.src}` }),
+      ...(project.url && { about: { "@type": "WebSite", name: project.title, url: project.url } }),
+    },
+  ];
+
   const meta = [
     { label: t.caseStudy.client, value: project.client },
     { label: t.caseStudy.role, value: project.role },
@@ -56,6 +86,7 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <article className="pt-28 md:pt-40">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="container-page">
         <Enter>
           <Link href={`/${locale}/projects`} className="group mb-10 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg md:mb-12">
@@ -150,7 +181,7 @@ export default async function ProjectPage({ params }: Props) {
                 {m.note && (
                   <div className="mt-auto pt-4">
                     <p className="flex flex-wrap items-baseline gap-x-1.5 border-t border-line pt-3 font-mono text-[10px] uppercase tracking-[0.16em] text-subtle sm:text-[11px]">
-                      <span className="text-sm font-semibold tabular-nums tracking-[-0.02em] text-fg sm:text-base">{m.note.value}</span>
+                      <span className="text-gradient text-sm font-semibold tabular-nums tracking-[-0.02em] sm:text-base">{m.note.value}</span>
                       {m.note.label}
                     </p>
                   </div>

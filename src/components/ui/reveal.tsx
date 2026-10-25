@@ -1,22 +1,51 @@
 "use client";
 
-import { motion, type HTMLMotionProps } from "motion/react";
+import { useEffect, useRef, type CSSProperties, type ReactNode, type RefObject } from "react";
 
-type RevealProps = HTMLMotionProps<"div"> & {
-  delay?: number;
-  y?: number;
-};
+let observer: IntersectionObserver | null = null;
 
-export function Reveal({ delay = 0, y = 24, children, ...props }: RevealProps) {
+function getObserver() {
+  observer ??= new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        (entry.target as HTMLElement).dataset.in = "";
+        observer?.unobserve(entry.target);
+      }
+    },
+    { rootMargin: "-60px" },
+  );
+  return observer;
+}
+
+export function useRevealOnce(ref: RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = getObserver();
+    io.observe(el);
+    return () => io.unobserve(el);
+  }, [ref]);
+}
+
+export function Reveal({ delay = 0, y = 24, className, children }: { delay?: number; y?: number; className?: string; children?: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useRevealOnce(ref);
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-      {...props}
-    >
+    <div ref={ref} data-reveal="" className={className} style={{ "--enter-y": `${y}px`, animationDelay: `${delay}s` } as CSSProperties}>
       {children}
-    </motion.div>
+    </div>
+  );
+}
+
+export function RevealGroup({ as: Tag = "div", className, children }: { as?: "div" | "span"; className?: string; children?: ReactNode }) {
+  const ref = useRef<HTMLDivElement & HTMLSpanElement>(null);
+  useRevealOnce(ref);
+
+  return (
+    <Tag ref={ref} data-reveal-group="" className={className}>
+      {children}
+    </Tag>
   );
 }

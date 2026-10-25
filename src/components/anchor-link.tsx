@@ -2,11 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useLenis } from "lenis/react";
 import type { ComponentProps, MouseEvent } from "react";
 import { useI18n } from "@/i18n/provider";
+import { getLenis, lockScroll } from "./effects/smooth-scroll";
 
-type AnchorLinkProps = Omit<ComponentProps<typeof Link>, "href"> & { to: string };
+type AnchorLinkProps = Omit<ComponentProps<typeof Link>, "href"> & { to: string; instant?: boolean };
 
 export function sectionOffset(id: string) {
   if (!id || id === "top") return 0;
@@ -18,21 +18,18 @@ export function sectionOffset(id: string) {
   return Math.max(0, Math.min(top, document.documentElement.scrollHeight - window.innerHeight));
 }
 
-export function useScrollToSection() {
-  const lenis = useLenis();
-  return (id: string) => {
-    lenis?.start();
-    const top = sectionOffset(id);
-    if (top === null) return;
-    if (lenis) lenis.scrollTo(top, { duration: 1.4 });
-    else window.scrollTo({ top, behavior: "smooth" });
-  };
+export function scrollToSection(id: string, instant = false) {
+  lockScroll(false);
+  const top = sectionOffset(id);
+  if (top === null) return;
+  const lenis = getLenis();
+  if (lenis) lenis.scrollTo(top, instant ? { immediate: true, force: true } : { duration: 1.4 });
+  else window.scrollTo({ top, behavior: instant ? "instant" : "smooth" });
 }
 
-export function AnchorLink({ to, onClick, ...props }: AnchorLinkProps) {
+export function AnchorLink({ to, instant, onClick, ...props }: AnchorLinkProps) {
   const pathname = usePathname();
   const { locale } = useI18n();
-  const scrollTo = useScrollToSection();
   const home = `/${locale}`;
   const href = to === "top" ? home : `${home}#${to}`;
 
@@ -40,7 +37,7 @@ export function AnchorLink({ to, onClick, ...props }: AnchorLinkProps) {
     onClick?.(e);
     if (pathname === home) {
       e.preventDefault();
-      scrollTo(to);
+      scrollToSection(to, instant);
       history.replaceState(history.state, "", href);
     }
   }

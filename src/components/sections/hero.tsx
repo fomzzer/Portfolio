@@ -10,6 +10,7 @@ import { Magnetic } from "../ui/magnetic";
 import { AnchorLink } from "../anchor-link";
 import { CodeOrb } from "../effects/code-orb";
 import { PauseOffscreen } from "../ui/pause-offscreen";
+import { useScrollTimeline } from "../effects/use-scroll-timeline";
 import { LocalTime } from "../local-time";
 
 export function Hero() {
@@ -20,19 +21,20 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const orbY = useTransform(scrollYProgress, [0, 1], [0, -120]);
   const orbScale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
+  const native = useScrollTimeline();
 
   return (
-    <section ref={ref} id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden pt-24 sm:pt-28">
+    <section ref={ref} id="top" className="hero-timeline relative flex min-h-[100svh] flex-col overflow-hidden pt-24 sm:pt-28">
       <motion.div
-        style={{ y: orbY, scale: orbScale }}
-        className="pointer-events-none absolute right-[-26%] top-[25vw] w-[90vw] max-w-[720px] sm:right-[-18%] sm:top-[-7vw] sm:w-[78vw] lg:right-[-4%] lg:top-[10%] lg:w-[56vw]"
+        style={native ? undefined : { y: orbY, scale: orbScale }}
+        className="hero-orb pointer-events-none absolute right-[-26%] top-[25vw] w-[90vw] max-w-[720px] sm:right-[-18%] sm:top-[-7vw] sm:w-[78vw] lg:right-[-4%] lg:top-[10%] lg:w-[56vw]"
       >
         <PauseOffscreen>
           <CodeOrb className="w-full opacity-60 sm:opacity-80 lg:opacity-100" />
         </PauseOffscreen>
       </motion.div>
 
-      <motion.div style={{ y, opacity }} className="container-page relative z-10 flex flex-1 flex-col justify-center">
+      <motion.div style={native ? undefined : { y, opacity }} className="hero-content container-page relative z-10 flex flex-1 flex-col justify-center">
         <div
           style={{ "--enter-y": "16px", animationDelay: "0.3s" } as CSSProperties}
           className="animate-enter glass glass-edge mb-6 inline-flex w-fit max-w-full items-center gap-3 rounded-full py-1.5 pl-2 pr-4 text-xs text-muted sm:mb-8"
@@ -89,11 +91,7 @@ export function Hero() {
         <span className="hidden sm:block">{p.location}</span>
         <AnchorLink to="work" className="mx-auto flex items-center gap-3 transition-colors hover:text-fg sm:mx-0">
           <span className="relative grid h-9 w-6 place-items-start justify-center rounded-full border border-line-strong pt-1.5">
-            <motion.span
-              className="block size-1 rounded-full bg-fg"
-              animate={{ y: [0, 14, 0], opacity: [1, 0.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            />
+            <span className="animate-scroll-cue block size-1 rounded-full bg-fg" />
           </span>
           {t.hero.scroll}
           <ArrowDown className="size-3" />

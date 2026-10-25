@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
     formats: ["image/avif", "image/webp"],
+    qualities: [75, 80, 82],
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
