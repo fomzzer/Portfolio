@@ -24,11 +24,11 @@ function useActiveSection(ids: readonly SectionId[], enabled: boolean) {
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setActive(visible.target.id as SectionId);
+        if (visible) setActive(visible.target.id === "top" ? null : (visible.target.id as SectionId));
       },
       { rootMargin: "-45% 0px -45% 0px", threshold: [0, 0.25, 0.5, 1] },
     );
-    ids.forEach((id) => {
+    ["top", ...ids].forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
@@ -67,9 +67,9 @@ export function Header() {
     return () => media.removeEventListener("change", close);
   }, []);
 
-  const businessHref = `/${locale}/for-business`;
-  const businessActive = pathname.startsWith(businessHref);
-  const current = businessActive ? "business" : active;
+  const casesHref = `/${locale}/projects`;
+  const casesActive = pathname.startsWith(casesHref);
+  const current = casesActive ? "cases" : active;
   const highlight = hovered ?? current;
 
   const pill = (
@@ -116,10 +116,10 @@ export function Header() {
               ))}
               <li aria-hidden className="mx-1.5 h-4 w-px bg-line-strong" />
               <li>
-                <Link href={businessHref} onPointerEnter={() => setHovered("business")} className={linkClass("business")} aria-current={businessActive ? "page" : undefined}>
-                  {highlight === "business" && pill}
+                <Link href={casesHref} onPointerEnter={() => setHovered("cases")} className={linkClass("cases")} aria-current={casesActive ? "page" : undefined}>
+                  {highlight === "cases" && pill}
                   <span className="relative inline-flex items-center gap-1">
-                    {t.nav.business}
+                    {t.nav.cases}
                     <ArrowUpRight className="size-3.5 opacity-60" />
                   </span>
                 </Link>
@@ -131,7 +131,7 @@ export function Header() {
             <LanguageSwitcher className="hidden sm:flex" />
             <button
               onClick={toggle}
-              className="glass glass-edge hidden h-9 items-center gap-1.5 rounded-full px-3 text-xs text-muted transition-colors hover:text-fg 2xl:flex"
+              className="glass glass-edge hidden h-9 cursor-pointer items-center gap-1.5 rounded-full px-3 text-xs text-muted transition-colors hover:text-fg 2xl:flex"
               aria-label={t.nav.openCommand}
             >
               <Command className="size-3.5" />
@@ -145,7 +145,7 @@ export function Header() {
             </AnchorLink>
             <button
               onClick={() => setMenuOpen((v) => !v)}
-              className="glass glass-edge grid size-9 place-items-center rounded-full xl:hidden"
+              className="glass glass-edge grid size-9 cursor-pointer place-items-center rounded-full xl:hidden"
               aria-label={menuOpen ? t.nav.closeMenu : t.nav.openMenu}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
@@ -190,8 +190,8 @@ export function Header() {
                 className="animate-enter mt-4 border-t border-line pt-4 [@media(max-height:740px)]:mt-2 [@media(max-height:740px)]:pt-2"
                 style={{ "--enter-y": "30px", "--enter-duration": "0.6s", animationDelay: `${0.05 * sections.length}s` } as CSSProperties}
               >
-                <Link href={businessHref} onClick={() => setMenuOpen(false)} className={cn(mobileLink, "items-center", businessActive ? "text-fg" : "text-fg/60 hover:text-fg")}>
-                  {t.nav.business}
+                <Link href={casesHref} onClick={() => setMenuOpen(false)} className={cn(mobileLink, "items-center", casesActive ? "text-fg" : "text-fg/60 hover:text-fg")}>
+                  {t.nav.cases}
                   <ArrowUpRight className="size-7 opacity-60 sm:size-9" />
                 </Link>
               </li>

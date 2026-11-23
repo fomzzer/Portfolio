@@ -20,7 +20,7 @@ export function Faq({ content }: { content: Content }) {
   return (
     <section id="faq" className="container-page scroll-mt-24 py-24 md:py-32 lg:py-40">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <SectionHeading index="08" eyebrow={t.faq.eyebrow} title={t.faq.title} description={t.faq.description} />
+      <SectionHeading index="05" eyebrow={t.faq.eyebrow} title={t.faq.title} description={t.faq.description} />
 
       <div className="divide-y divide-line overflow-hidden rounded-3xl border border-line">
         {t.faq.items.map((item, i) => (

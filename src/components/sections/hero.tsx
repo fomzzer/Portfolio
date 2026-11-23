@@ -53,7 +53,7 @@ export function Hero() {
           <PauseOffscreen className="pointer-events-none absolute -z-10 right-[-24vw] top-[0.4em] w-[84vw] -translate-y-1/2 text-[clamp(2.3rem,10vw,6.25rem)] sm:hidden">
             <CodeOrb className="w-full opacity-40" />
           </PauseOffscreen>
-          <h1 className="relative max-w-5xl text-[clamp(2.3rem,10vw,6.25rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-balance sm:text-[clamp(3rem,7vw,6.25rem)]">
+          <h1 className="relative max-w-[9.2em] text-[clamp(2.3rem,10vw,6.25rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-balance sm:text-[clamp(3rem,7vw,6.25rem)]">
             <span className="block text-fg">
               <SplitText text={t.hero.titleTop} immediate delay={0.4} stagger={0.08} />
             </span>

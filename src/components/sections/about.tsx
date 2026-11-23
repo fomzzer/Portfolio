@@ -13,7 +13,7 @@ export function About({ content }: { content: Content }) {
     <section id="about" className="container-page scroll-mt-24 py-24 md:py-32 lg:py-40">
       <Reveal>
         <div className="mb-10 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.25em] text-subtle md:mb-12">
-          <span className="text-muted">02</span>
+          <span className="text-muted">04</span>
           <span className="h-px w-8 bg-line-strong" />
           <span>{t.about.eyebrow}</span>
         </div>

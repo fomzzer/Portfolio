@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     qualities: [75, 80, 82],
   },
+  async redirects() {
+    return [{ source: "/:locale(en|bg|uk|ru)/for-business", destination: "/:locale", permanent: true }];
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },

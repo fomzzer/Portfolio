@@ -6,33 +6,13 @@ import { GlassCard } from "../ui/glass-card";
 import { Reveal } from "../ui/reveal";
 import { SectionHeading } from "../ui/section-heading";
 
-type SectionProps = { content: Content; index: string; id?: string };
+type SectionProps = { content: Content; index: string; id: string };
 
-const sectionClass = "container-page scroll-mt-24 py-16 md:py-24";
+const sectionClass = "container-page scroll-mt-24 py-24 md:py-32";
 const benefitIcons = [Search, Smartphone, CreditCard, Truck, Settings2, Headphones];
 
-export function BusinessProblems({ content, index, id }: SectionProps) {
-  const { problems } = content.t.business;
-  return (
-    <section id={id} className={sectionClass}>
-      <SectionHeading index={index} eyebrow={problems.eyebrow} title={problems.title} description={problems.description} />
-      <div className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2">
-        {problems.items.map((item, i) => (
-          <Reveal key={item.title} delay={i * 0.06} className="h-full">
-            <div className="h-full bg-ink p-6 md:p-8">
-              <p className="font-mono text-xs text-subtle">{String(i + 1).padStart(2, "0")}</p>
-              <h3 className="mt-6 text-xl font-semibold tracking-[-0.03em]">{item.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{item.text}</p>
-            </div>
-          </Reveal>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-export function BusinessBenefits({ content, index, id }: SectionProps) {
-  const { benefits } = content.t.business;
+export function BusinessServices({ content, index, id }: SectionProps) {
+  const { benefits, process } = content.t.business;
   return (
     <section id={id} className={sectionClass}>
       <SectionHeading index={index} eyebrow={benefits.eyebrow} title={benefits.title} description={benefits.description} />
@@ -51,6 +31,21 @@ export function BusinessBenefits({ content, index, id }: SectionProps) {
             </Reveal>
           );
         })}
+      </div>
+
+      <Reveal className="mb-6 mt-16 md:mt-20">
+        <h3 className="text-2xl font-semibold tracking-[-0.03em] md:text-3xl">{process.title}</h3>
+      </Reveal>
+      <div className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+        {process.items.map((item, i) => (
+          <Reveal key={item.title} delay={i * 0.08} className="h-full">
+            <div className="h-full bg-ink p-6 md:p-7">
+              <p className="font-mono text-xs text-subtle">{String(i + 1).padStart(2, "0")}</p>
+              <h4 className="mt-6 text-lg font-semibold tracking-[-0.02em] md:mt-8">{item.title}</h4>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{item.text}</p>
+            </div>
+          </Reveal>
+        ))}
       </div>
     </section>
   );
@@ -94,26 +89,6 @@ export function BusinessPackages({ content, index, id }: SectionProps) {
             </Reveal>
           );
         })}
-      </div>
-    </section>
-  );
-}
-
-export function BusinessProcess({ content, index, id }: SectionProps) {
-  const { process } = content.t.business;
-  return (
-    <section id={id} className={sectionClass}>
-      <SectionHeading index={index} eyebrow={process.eyebrow} title={process.title} description={process.description} />
-      <div className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-        {process.items.map((item, i) => (
-          <Reveal key={item.title} delay={i * 0.08} className="h-full">
-            <div className="h-full bg-ink p-6 md:p-7">
-              <p className="font-mono text-xs text-subtle">{String(i + 1).padStart(2, "0")}</p>
-              <h3 className="mt-6 text-lg font-semibold tracking-[-0.02em] md:mt-8">{item.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{item.text}</p>
-            </div>
-          </Reveal>
-        ))}
       </div>
     </section>
   );

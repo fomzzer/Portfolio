@@ -15,13 +15,11 @@ export const en = {
   nav: {
     work: "Work",
     cases: "Cases",
-    business: "For business",
     about: "About",
     stack: "Stack",
     experience: "Experience",
     services: "Services",
     pricing: "Pricing",
-    process: "How I work",
     faq: "FAQ",
     contact: "Contact",
     home: "Home",
@@ -190,24 +188,6 @@ export const en = {
     ],
   },
   business: {
-    seoTitle: "Website or online store for your business",
-    seoDescription: "A website or online store for shops, services and small businesses: online orders and payments, delivery, Google visibility and an admin panel you can run yourself.",
-    eyebrow: "For business",
-    title: "A website that works for your business every day.",
-    description: "For shops, services and small businesses. Customers find you on Google, see your prices and order on their own, while you spend less time on routine.",
-    primary: "Discuss my project",
-    secondary: "See a real example",
-    problems: {
-      eyebrow: "Sound familiar?",
-      title: "Where a business loses customers without a website.",
-      description: "People rarely complain about this. They just go to whoever was easier to find and easier to buy from.",
-      items: [
-        { title: "Hard to find on Google", text: "A customer searches for your product or service nearby and finds your competitors instead." },
-        { title: "Prices only on request", text: "Not everyone wants to write and wait for a reply. Some leave before they ever ask." },
-        { title: "Orders get lost in chats", text: "Messages, calls and notes pile up, and it is easy to miss an order or mix up the details." },
-        { title: "Everything depends on one platform", text: "If a social network limits your account or changes its rules, your customers are out of reach." },
-      ],
-    },
     benefits: {
       eyebrow: "What you get",
       title: "Everything customers need, in one place.",
@@ -233,13 +213,6 @@ export const en = {
         { name: "Online store", price: "from €300", time: "4–8 weeks", text: "A complete store for selling products online.", features: ["Catalog and cart", "Online payment", "Delivery integration", "Admin panel for orders"] },
       ],
     },
-    example: {
-      eyebrow: "Real example",
-      title: "Prirodni Skarby, an online store from Odesa.",
-      description: "A natural products shop with a physical location. I built the store from scratch and it runs in production.",
-      steps: ["The customer chooses a product and volume", "Pays online on the website", "Selects a Nova Poshta branch at checkout", "The owner sees the order in the admin panel"],
-      open: "Read the case",
-    },
     process: {
       eyebrow: "How it works",
       title: "Four simple steps to launch.",
@@ -250,11 +223,6 @@ export const en = {
         { title: "Development", text: "You get preview links and can follow the progress at every stage." },
         { title: "Launch", text: "I connect the domain, publish the site and show you how to manage it." },
       ],
-    },
-    cta: {
-      title: "Let's see what your business needs.",
-      text: "Tell me briefly what you do. I will suggest a suitable format and an approximate price.",
-      button: "Discuss my project",
     },
   },
   footer: {

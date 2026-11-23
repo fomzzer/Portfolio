@@ -52,12 +52,6 @@ export function Footer() {
                 <ArrowUpRight className="size-3.5 opacity-60" />
               </Link>
             </li>
-            <li>
-              <Link href={`/${locale}/for-business`} className="inline-flex items-center gap-1 text-sm text-muted transition-colors hover:text-fg">
-                {t.nav.business}
-                <ArrowUpRight className="size-3.5 opacity-60" />
-              </Link>
-            </li>
           </ul>
         </div>
 
