@@ -20,6 +20,8 @@ export const en = {
     stack: "Stack",
     experience: "Experience",
     services: "Services",
+    pricing: "Pricing",
+    process: "How I work",
     faq: "FAQ",
     contact: "Contact",
     home: "Home",
@@ -33,10 +35,11 @@ export const en = {
   hero: {
     available: "Available",
     busy: "Busy",
-    titleTop: "Full-Stack",
-    titleBottom: "Developer",
-    viewWork: "View my work",
-    getInTouch: "Start a project",
+    titleTop: "Websites and stores",
+    titleBottom: "that work for your business",
+    viewWork: "See a case study",
+    getInTouch: "Discuss my project",
+    description: "Customers find you on Google, see your prices and order on their own. The full cycle, from idea to launch.",
     scroll: "Scroll",
   },
   work: {
@@ -189,7 +192,6 @@ export const en = {
   business: {
     seoTitle: "Website or online store for your business",
     seoDescription: "A website or online store for shops, services and small businesses: online orders and payments, delivery, Google visibility and an admin panel you can run yourself.",
-    servicesLink: "What this means for your business",
     eyebrow: "For business",
     title: "A website that works for your business every day.",
     description: "For shops, services and small businesses. Customers find you on Google, see your prices and order on their own, while you spend less time on routine.",

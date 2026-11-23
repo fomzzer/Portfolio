@@ -68,11 +68,11 @@ export default async function OpengraphImage({ params }: { params: Promise<{ loc
           </div>
         </div>
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ display: "flex", flexDirection: "column", fontSize: 116, fontWeight: 600, letterSpacing: -5, lineHeight: 0.95 }}>
+          <div style={{ display: "flex", flexDirection: "column", fontSize: 76, fontWeight: 600, letterSpacing: -3, lineHeight: 1.05 }}>
             <span>{t.hero.titleTop}</span>
             <span style={{ color: "#a1a1aa" }}>{t.hero.titleBottom}</span>
           </div>
-          <div style={{ marginTop: 30, fontSize: 30, color: "#a1a1aa", maxWidth: 980 }}>{p.headline}</div>
+          <div style={{ marginTop: 30, fontSize: 30, color: "#a1a1aa", maxWidth: 980 }}>{t.hero.description}</div>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", fontSize: 22, color: "#71717a" }}>
           <span>{`${fullName} · ${p.location}`}</span>

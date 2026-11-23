@@ -24,7 +24,7 @@ export function Experience() {
 
   return (
     <section id="experience" className="container-page scroll-mt-24 py-24 md:py-32 lg:py-40">
-      <SectionHeading index="04" eyebrow={t.experience.eyebrow} title={t.experience.title} description={t.experience.description} />
+      <SectionHeading index="07" eyebrow={t.experience.eyebrow} title={t.experience.title} description={t.experience.description} />
 
       <div ref={ref} className="timeline-track relative ml-1 lg:ml-0">
         <div aria-hidden className="absolute bottom-0 left-0 top-0 w-px bg-line lg:left-[calc(25%-0.5px)]" />

@@ -14,7 +14,7 @@ import { useScrollTimeline } from "../effects/use-scroll-timeline";
 import { LocalTime } from "../local-time";
 
 export function Hero() {
-  const { t, profile: p } = useI18n();
+  const { t, fullName, profile: p } = useI18n();
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], [0, 160]);
@@ -43,14 +43,17 @@ export function Hero() {
             <span className="size-1.5 rounded-full bg-emerald-300 animate-pulse-dot" />
             {profile.available ? t.hero.available : t.hero.busy}
           </span>
-          <span className="truncate">{p.availability}</span>
+          <span className="truncate">
+            {fullName}
+            <span className="hidden sm:inline"> · {p.role}</span>
+          </span>
         </div>
 
         <div className="relative">
-          <PauseOffscreen className="pointer-events-none absolute -z-10 right-[-24vw] top-[0.4em] w-[84vw] -translate-y-1/2 text-[clamp(2.9rem,12.5vw,9.5rem)] sm:hidden">
-            <CodeOrb className="w-full opacity-60" />
+          <PauseOffscreen className="pointer-events-none absolute -z-10 right-[-24vw] top-[0.4em] w-[84vw] -translate-y-1/2 text-[clamp(2.3rem,10vw,6.25rem)] sm:hidden">
+            <CodeOrb className="w-full opacity-40" />
           </PauseOffscreen>
-          <h1 className="relative max-w-5xl text-[clamp(2.9rem,12.5vw,9.5rem)] font-semibold leading-[0.9] tracking-[-0.065em] sm:text-[clamp(3.2rem,11vw,9.5rem)]">
+          <h1 className="relative max-w-5xl text-[clamp(2.3rem,10vw,6.25rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-balance sm:text-[clamp(3rem,7vw,6.25rem)]">
             <span className="block text-fg">
               <SplitText text={t.hero.titleTop} immediate delay={0.4} stagger={0.08} />
             </span>
@@ -62,16 +65,16 @@ export function Hero() {
 
         <div className="mt-8 grid gap-8 sm:mt-10 lg:mt-14 lg:grid-cols-12 lg:items-end">
           <p className="animate-enter max-w-md text-base leading-relaxed text-muted sm:text-lg lg:col-span-5 lg:text-xl" style={{ animationDelay: "0.9s" }}>
-            {p.headline}
+            {t.hero.description}
           </p>
 
           <div className="animate-enter flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:col-span-7 lg:justify-end" style={{ animationDelay: "1.05s" }}>
             <Magnetic className="block sm:inline-block">
               <AnchorLink
-                to="work"
+                to="contact"
                 className="group relative flex h-14 w-full items-center justify-between gap-3 overflow-hidden rounded-full bg-fg pl-7 pr-2 text-sm font-medium text-ink shadow-[0_10px_50px_-12px_rgba(255,255,255,0.5)] sm:inline-flex sm:w-auto"
               >
-                {t.hero.viewWork}
+                {t.hero.getInTouch}
                 <span className="grid size-10 place-items-center rounded-full bg-ink text-fg transition-transform duration-500 ease-out-expo group-hover:rotate-[-45deg]">
                   <ArrowRight className="size-4" />
                 </span>
@@ -79,10 +82,10 @@ export function Hero() {
             </Magnetic>
             <Magnetic className="block sm:inline-block">
               <AnchorLink
-                to="contact"
+                to="work"
                 className="glass glass-edge flex h-14 w-full items-center justify-center rounded-full px-7 text-sm font-medium text-fg transition-colors hover:bg-white/[0.08] sm:inline-flex sm:w-auto"
               >
-                {t.hero.getInTouch}
+                {t.hero.viewWork}
               </AnchorLink>
             </Magnetic>
           </div>

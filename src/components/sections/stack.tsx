@@ -12,7 +12,7 @@ export function Stack({ content }: { content: Content }) {
 
   return (
     <section id="stack" className="container-page scroll-mt-24 py-24 md:py-32 lg:py-40">
-      <SectionHeading index="03" eyebrow={t.stack.eyebrow} title={t.stack.title} description={t.stack.description} />
+      <SectionHeading index="06" eyebrow={t.stack.eyebrow} title={t.stack.title} description={t.stack.description} />
 
       <div className="grid gap-4 sm:gap-6 md:grid-cols-6">
         {stackGroups.map((group, i) => {

@@ -95,7 +95,7 @@ export function Contact() {
 
   return (
     <section id="contact" className="container-page scroll-mt-24 py-24 md:py-32 lg:py-40">
-      <SectionHeading index="07" eyebrow={t.contact.eyebrow} title={t.contact.title} description={t.contact.description} />
+      <SectionHeading index="09" eyebrow={t.contact.eyebrow} title={t.contact.title} description={t.contact.description} />
 
       <div className="grid gap-4 sm:gap-6 lg:grid-cols-12">
         <Reveal className="lg:col-span-5">

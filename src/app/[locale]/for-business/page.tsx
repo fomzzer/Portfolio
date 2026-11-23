@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, Check, CreditCard, Headphones, Search, Settings2, Smartphone, Truck } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { isLocale, localeMeta } from "@/i18n/config";
 import { getContent } from "@/i18n/content";
 import { breadcrumbs, businessId, localeAlternates } from "@/lib/seo";
-import { cn, siteUrl } from "@/lib/utils";
+import { siteUrl } from "@/lib/utils";
+import { BusinessBenefits, BusinessPackages, BusinessProblems, BusinessProcess } from "@/components/sections/business";
 import { ButtonLink } from "@/components/ui/button";
 import { Enter } from "@/components/ui/enter";
 import { GlassCard } from "@/components/ui/glass-card";
@@ -15,8 +16,6 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { SplitText } from "@/components/ui/split-text";
 
 type Props = { params: Promise<{ locale: string }> };
-
-const benefitIcons = [Search, Smartphone, CreditCard, Truck, Settings2, Headphones];
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -83,69 +82,9 @@ export default async function ForBusinessPage({ params }: Props) {
         </Enter>
       </section>
 
-      <section className="container-page py-16 md:py-24">
-        <SectionHeading index="01" eyebrow={b.problems.eyebrow} title={b.problems.title} description={b.problems.description} />
-        <div className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2">
-          {b.problems.items.map((item, i) => (
-            <Reveal key={item.title} delay={i * 0.06} className="h-full">
-              <div className="h-full bg-ink p-6 md:p-8">
-                <p className="font-mono text-xs text-subtle">{String(i + 1).padStart(2, "0")}</p>
-                <h3 className="mt-6 text-xl font-semibold tracking-[-0.03em]">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{item.text}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      <section className="container-page py-16 md:py-24">
-        <SectionHeading index="02" eyebrow={b.benefits.eyebrow} title={b.benefits.title} description={b.benefits.description} />
-        <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {b.benefits.items.map((item, i) => {
-            const Icon = benefitIcons[i];
-            return (
-              <Reveal key={item.title} delay={i * 0.06} className="h-full">
-                <GlassCard className="group flex h-full flex-col p-6 md:p-7">
-                  <span className="glass glass-edge mb-8 grid size-12 place-items-center rounded-2xl transition-transform duration-700 ease-out-expo group-hover:-rotate-6 group-hover:scale-110">
-                    <Icon className="size-5" strokeWidth={1.5} />
-                  </span>
-                  <h3 className="text-xl font-semibold tracking-[-0.03em]">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted">{item.text}</p>
-                </GlassCard>
-              </Reveal>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className="container-page py-16 md:py-24">
-        <SectionHeading index="03" eyebrow={b.packages.eyebrow} title={b.packages.title} description={b.packages.description} />
-        <div className="grid gap-4 md:gap-6 lg:grid-cols-3">
-          {b.packages.items.map((item, i) => (
-            <Reveal key={item.name} delay={i * 0.08} className="h-full">
-              <GlassCard strong={i === 2} className={cn("flex h-full flex-col p-6 md:p-8", i === 2 && "ring-1 ring-white/25")}>
-                <h3 className="text-xl font-semibold tracking-[-0.03em]">{item.name}</h3>
-                <p className="mt-2 min-h-10 text-sm leading-relaxed text-muted">{item.text}</p>
-                <p className="mt-6 text-4xl font-semibold tracking-[-0.05em]">{item.price}</p>
-                <p className="mt-2 font-mono text-xs text-subtle">
-                  {b.packages.timeLabel}: {item.time}
-                </p>
-                <ul className="mt-6 flex-1 space-y-3 border-t border-line pt-6">
-                  {item.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-3 text-sm text-muted">
-                      <Check className="mt-0.5 size-4 shrink-0 text-fg" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <ButtonLink href={contactHref} scroll={false} variant={i === 2 ? "primary" : "glass"} className="mt-8 w-full">
-                  {b.packages.cta}
-                </ButtonLink>
-              </GlassCard>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+      <BusinessProblems content={content} index="01" />
+      <BusinessBenefits content={content} index="02" />
+      <BusinessPackages content={content} index="03" />
 
       <section id="example" className="container-page scroll-mt-24 py-16 md:py-24">
         <SectionHeading index="04" eyebrow={b.example.eyebrow} title={b.example.title} description={b.example.description} />
@@ -174,20 +113,7 @@ export default async function ForBusinessPage({ params }: Props) {
         </Reveal>
       </section>
 
-      <section className="container-page py-16 md:py-24">
-        <SectionHeading index="05" eyebrow={b.process.eyebrow} title={b.process.title} description={b.process.description} />
-        <div className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-          {b.process.items.map((item, i) => (
-            <Reveal key={item.title} delay={i * 0.08} className="h-full">
-              <div className="h-full bg-ink p-6 md:p-7">
-                <p className="font-mono text-xs text-subtle">{String(i + 1).padStart(2, "0")}</p>
-                <h3 className="mt-6 text-lg font-semibold tracking-[-0.02em] md:mt-8">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">{item.text}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+      <BusinessProcess content={content} index="05" />
 
       <section className="container-page pt-8 md:pt-12">
         <Reveal>

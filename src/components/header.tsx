@@ -67,9 +67,9 @@ export function Header() {
     return () => media.removeEventListener("change", close);
   }, []);
 
-  const casesHref = `/${locale}/projects`;
-  const casesActive = pathname.startsWith(casesHref);
-  const current = casesActive ? "cases" : active;
+  const businessHref = `/${locale}/for-business`;
+  const businessActive = pathname.startsWith(businessHref);
+  const current = businessActive ? "business" : active;
   const highlight = hovered ?? current;
 
   const pill = (
@@ -116,10 +116,10 @@ export function Header() {
               ))}
               <li aria-hidden className="mx-1.5 h-4 w-px bg-line-strong" />
               <li>
-                <Link href={casesHref} onPointerEnter={() => setHovered("cases")} className={linkClass("cases")} aria-current={casesActive ? "page" : undefined}>
-                  {highlight === "cases" && pill}
+                <Link href={businessHref} onPointerEnter={() => setHovered("business")} className={linkClass("business")} aria-current={businessActive ? "page" : undefined}>
+                  {highlight === "business" && pill}
                   <span className="relative inline-flex items-center gap-1">
-                    {t.nav.cases}
+                    {t.nav.business}
                     <ArrowUpRight className="size-3.5 opacity-60" />
                   </span>
                 </Link>
@@ -190,8 +190,8 @@ export function Header() {
                 className="animate-enter mt-4 border-t border-line pt-4 [@media(max-height:740px)]:mt-2 [@media(max-height:740px)]:pt-2"
                 style={{ "--enter-y": "30px", "--enter-duration": "0.6s", animationDelay: `${0.05 * sections.length}s` } as CSSProperties}
               >
-                <Link href={casesHref} onClick={() => setMenuOpen(false)} className={cn(mobileLink, "items-center", casesActive ? "text-fg" : "text-fg/60 hover:text-fg")}>
-                  {t.nav.cases}
+                <Link href={businessHref} onClick={() => setMenuOpen(false)} className={cn(mobileLink, "items-center", businessActive ? "text-fg" : "text-fg/60 hover:text-fg")}>
+                  {t.nav.business}
                   <ArrowUpRight className="size-7 opacity-60 sm:size-9" />
                 </Link>
               </li>
