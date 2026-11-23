@@ -1,5 +1,6 @@
-import { Gauge, Globe, Layers, ShoppingBag } from "lucide-react";
+import { ArrowRight, Gauge, Globe, Layers, ShoppingBag } from "lucide-react";
 import type { Content } from "@/i18n/content";
+import { ButtonLink } from "../ui/button";
 import { SectionHeading } from "../ui/section-heading";
 import { Reveal } from "../ui/reveal";
 import { GlassCard } from "../ui/glass-card";
@@ -42,6 +43,13 @@ export function Services({ content }: { content: Content }) {
           </Reveal>
         ))}
       </div>
+
+      <Reveal className="mt-8 flex justify-center md:mt-12">
+        <ButtonLink href={`/${content.locale}/for-business`} variant="glass">
+          {t.business.servicesLink}
+          <ArrowRight className="size-4" />
+        </ButtonLink>
+      </Reveal>
     </section>
   );
 }

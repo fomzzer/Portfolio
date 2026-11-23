@@ -21,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const covers = projectData.flatMap((p) => (p.cover ? [p.cover.src] : []));
   return [
     ...entry("", 1, "weekly", covers),
+    ...entry("/for-business", 0.9, "monthly"),
     ...entry("/projects", 0.9, "monthly", covers),
     ...projectData.flatMap((p) => entry(`/projects/${p.slug}`, 0.8, "monthly", [...p.gallery.desktop, ...p.gallery.mobile].map((s) => s.src))),
   ];
