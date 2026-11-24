@@ -64,7 +64,7 @@ export function BusinessPackages({ content, index, id }: SectionProps) {
               <GlassCard strong={featured} className={cn("flex h-full flex-col p-6 md:p-8", featured && "ring-1 ring-white/25")}>
                 <h3 className="text-xl font-semibold tracking-[-0.03em]">{item.name}</h3>
                 <p className="mt-2 min-h-10 text-sm leading-relaxed text-muted">{item.text}</p>
-                <p className="mt-6 text-4xl font-semibold tracking-[-0.05em]">{item.price}</p>
+                <p className="mt-6 whitespace-nowrap text-[clamp(1.6rem,7.4vw,2.25rem)] font-semibold tracking-[-0.05em] lg:text-[clamp(1.6rem,2.45vw,2.25rem)]">{item.price}</p>
                 <p className="mt-2 font-mono text-xs text-subtle">
                   {packages.timeLabel}: {item.time}
                 </p>

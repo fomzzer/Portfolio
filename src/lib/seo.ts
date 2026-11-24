@@ -83,7 +83,7 @@ export function siteGraph(content: Content) {
           { "@type": "Place", name: "Worldwide" },
         ],
         priceRange: "€€",
-        currenciesAccepted: "EUR",
+        currenciesAccepted: "EUR, UAH, USD",
         founder: { "@id": personId },
         sameAs: profile.socials.map((s) => s.href),
         contactPoint: profile.phones.map((ph) => ({

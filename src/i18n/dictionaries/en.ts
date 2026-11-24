@@ -153,7 +153,7 @@ export const en = {
     name: "Your name",
     emailField: "Email address",
     budget: "Budget",
-    budgets: { "50to100": "€50 – 100", "100to200": "€100 – 200", "200to300": "€200 – 300", "300to500": "€300 – 500", gt500: "€500+", unsure: "Not sure" },
+    budgets: { "50to100": "$60 – 110", "100to200": "$110 – 220", "200to300": "$220 – 330", "300to500": "$330 – 550", gt500: "$550+", unsure: "Not sure" },
     message: "Tell me about your project",
     send: "Send message",
     sending: "Sending…",
@@ -179,7 +179,7 @@ export const en = {
     title: "Questions clients ask before we start.",
     description: "Short answers about cost, timelines and how website development works with me.",
     items: [
-      { q: "How much does a website cost?", a: "It depends on the scope, and every project is priced individually. As a guide: a landing page starts from €100, a business website is usually €200–300, an online store or web application starts from €300, and SEO optimization of an existing website is €50–100. The exact amount becomes clear after a consultation and an estimate of your project — no hidden extras." },
+      { q: "How much does a website cost?", a: "It depends on the scope, and every project is priced individually. As a guide: a landing page starts from $110, a business website is usually $220–330, an online store or web application starts from $330, and SEO optimization of an existing website is $60–110. The exact amount becomes clear after a consultation and an estimate of your project — no hidden extras." },
       { q: "How long does website development take?", a: "A landing page takes about 1–2 weeks, a business website 2–4 weeks, and an online store or custom web app 4–8 weeks. You get preview links throughout, so you see progress at every stage." },
       { q: "What is included in a turnkey website?", a: "Everything from start to finish: structure and design, development, mobile adaptation, contact forms, analytics, technical SEO, hosting and domain setup, and launch. After launch I stay available for support and improvements." },
       { q: "Will my website be fast and SEO-optimized?", a: "Yes. Every site is built on Next.js with server rendering, optimized images and clean semantic markup. I target Lighthouse scores of 90–100 and set up metadata, sitemaps and structured data so search engines understand and rank your site." },
@@ -208,9 +208,9 @@ export const en = {
       timeLabel: "Timeline",
       cta: "Get an estimate",
       items: [
-        { name: "Landing page", price: "from €100", time: "1–2 weeks", text: "One clear page for a product, service or promotion.", features: ["Design for your brand", "Mobile version", "Contact form", "Basic Google setup"] },
-        { name: "Business website", price: "€200–300", time: "2–4 weeks", text: "A full website for a company, salon, studio or service business.", features: ["Several pages", "Services, prices and contacts", "Contact forms and analytics", "Search optimization"] },
-        { name: "Online store", price: "from €300", time: "4–8 weeks", text: "A complete store for selling products online.", features: ["Catalog and cart", "Online payment", "Delivery integration", "Admin panel for orders"] },
+        { name: "Landing page", price: "from $110", time: "1–2 weeks", text: "One clear page for a product, service or promotion.", features: ["Design for your brand", "Mobile version", "Contact form", "Basic Google setup"] },
+        { name: "Business website", price: "$220–330", time: "2–4 weeks", text: "A full website for a company, salon, studio or service business.", features: ["Several pages", "Services, prices and contacts", "Contact forms and analytics", "Search optimization"] },
+        { name: "Online store", price: "from $330", time: "4–8 weeks", text: "A complete store for selling products online.", features: ["Catalog and cart", "Online payment", "Delivery integration", "Admin panel for orders"] },
       ],
     },
     process: {

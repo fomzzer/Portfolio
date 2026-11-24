@@ -3,7 +3,7 @@
 import { headers } from "next/headers";
 import { Resend } from "resend";
 import { z } from "zod";
-import { budgets, type Budget } from "@/content/contact";
+import { budgets } from "@/content/contact";
 import { defaultLocale, isLocale, type Locale } from "@/i18n/config";
 import { getContent } from "@/i18n/content";
 import { profile } from "@/content/profile";
@@ -39,15 +39,6 @@ function env(name: string) {
 function escape(value: string) {
   return value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] as string);
 }
-
-const budgetLabels: Record<Budget, string> = {
-  "50to100": "€50 – 100",
-  "100to200": "€100 – 200",
-  "200to300": "€200 – 300",
-  "300to500": "€300 – 500",
-  gt500: "от €500",
-  unsure: "Не определён",
-};
 
 const languageLabels: Record<Locale, string> = { en: "Английский", bg: "Болгарский", uk: "Украинский", ru: "Русский" };
 
@@ -128,7 +119,7 @@ export async function sendMessage(_: ContactState, formData: FormData): Promise<
   if (rateLimited(ip)) return { status: "error", message: t.contact.errors.rate };
 
   const { name, email, budget, message } = parsed.data;
-  const budgetLabel = budgetLabels[budget];
+  const budgetLabel = budget === "unsure" ? "Не определён" : t.contact.budgets[budget];
   const language = languageLabels[locale];
   const date = new Intl.DateTimeFormat("ru-RU", { timeZone: profile.timezone, day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }).format(new Date());
   const apiKey = env("RESEND_API_KEY");
